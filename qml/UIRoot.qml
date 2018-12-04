@@ -2,10 +2,12 @@ import QtQuick 2.9
 import QtQuick.Window 2.2
 
 Window {
+    minimumWidth: 640;
+    minimumHeight: 480;
     width: 640;
     height: 480;
     title: qsTr("QmlTemplate");
-    color: "#EEEEEE";
+    color: "#FFFFFF";
 
     /* 连接器 */
     Connector {
@@ -22,7 +24,7 @@ Window {
         id: root;
         anchors.fill: parent;
 
-        // 主界面
+        /* 主界面 */
         UIMain {
             id: main;
         }

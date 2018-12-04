@@ -14,6 +14,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 HEADERS += \
     src/jhsdk/common/Common.h \
+    src/jhsdk/inifile/IniFile.h \
     src/jhsdk/logfile/logfile.h \
     src/jhsdk/logfile/logfilewrapper.h \
     src/jhsdk/pugixml/pugiconfig.hpp \
@@ -24,6 +25,7 @@ HEADERS += \
 
 SOURCES += \
     src/jhsdk/common/Common.cpp \
+    src/jhsdk/inifile/IniFile.cpp \
     src/jhsdk/logfile/logfile.c \
     src/jhsdk/logfile/logfilewrapper.c \
     src/jhsdk/pugixml/pugixml.cpp \

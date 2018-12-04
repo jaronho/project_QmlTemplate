@@ -7,7 +7,7 @@
 #define _CONTROL_H_
 
 #include <QObject>
-#include <time.h>
+#include <QQuickWindow>
 
 class Control : public QObject {
     Q_OBJECT
@@ -18,7 +18,7 @@ private:
      * Param:   void
      * Return:  void
      */
-    Control(void) {}
+    Control(void) : mWin(nullptr) {}
 
 public:
     /*
@@ -32,18 +32,29 @@ public:
     /* 初始化 */
     void init(void);
 
+    /* 设置窗体 */
+    void setWindow(QQuickWindow* win);
+
+    /* 通知初始成功 */
+    void notifyInitOk(void);
+
 signals:
     /*
-     * Brief:   初始化结束
+     * Brief:   初始成功
      * Param:   void
      * Return:  void
      */
-    void sigInit(void);
+    void sigInitOk(void);
 
 public slots:
+    /* 设置鼠标 */
+    void onSetCursor(int cursor);
+
     /* 日志记录 */
     void onLogRecord(QString str);
 
+private:
+    QQuickWindow* mWin;
 };
 
 #endif // _CONTROL_H_

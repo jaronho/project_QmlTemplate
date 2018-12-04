@@ -15,7 +15,11 @@ Item {
      ***********************************************************************/
     Connections {
         target: control;
-        onSigInit: {
+        onSigInitOk: {
+            console.log("init ok!!!");
+            if ('undefined' !== typeof(processor)) {
+                processor.handleInitOk();
+            }
         }
     }
 
@@ -23,8 +27,13 @@ Item {
      ******************************* 发送消息 *******************************
      ***********************************************************************/
 
-    /* 发送日志 */
-    function sendLog(str) {
+    /* 设置鼠标 */
+    function setCursor(cursor) {
+        control.onSetCursor(cursor);
+    }
+
+    /* 记录日志 */
+    function recordLog(str) {
         control.onLogRecord(str);
     }
 }
