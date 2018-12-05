@@ -2,7 +2,8 @@
     <qresource prefix="/">
         <file>qml/Connector.qml</file>
         <file>qml/Processor.qml</file>
-        <file>qml/UIRoot.qml</file>
         <file>qml/UIMain.qml</file>
+        <file>qml/UIRoot.qml</file>
+        <file>qml/XResizeItem.qml</file>
     </qresource>
 </RCC>
