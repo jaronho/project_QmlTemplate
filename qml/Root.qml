@@ -5,7 +5,7 @@ import "xwidget" as XWidget
 
 Window {
     id: window;
-    title: qsTr("QmlTemplate");
+    color: Qt.rgba(255, 255, 255, 120);
 
     property bool _isFixedSize: false;  /* 是否固定大小 */
 
@@ -34,7 +34,6 @@ Window {
         maxHeight: window.maximumHeight;
         moveFlag: true;
         borderSize: _isFixedSize ? 0 : 3;
-        onBorderEntered: handleBorderEntered;
         showBorder: false;
 
         /* 背景层 */
@@ -103,28 +102,5 @@ Window {
             maximumHeight = maxH > h ? maxH : h;
         }
         return isFixedSize;
-    }
-
-    /* 处理进入边框 */
-    function handleBorderEntered(direct) {
-        if (1 === direct) {
-            control.onSetCursor(8);
-        } else if (2 === direct) {
-            control.onSetCursor(5);
-        } else if (3 === direct) {
-            control.onSetCursor(7);
-        } else if (4 === direct) {
-            control.onSetCursor(6);
-        } else if (5 === direct) {
-            control.onSetCursor(0);
-        } else if (6 === direct) {
-            control.onSetCursor(6);
-        } else if (7 === direct) {
-            control.onSetCursor(7);
-        } else if (8 === direct) {
-            control.onSetCursor(5);
-        } else if (9 === direct) {
-            control.onSetCursor(8);
-        }
     }
 }

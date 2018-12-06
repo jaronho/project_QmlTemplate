@@ -10,7 +10,6 @@ Item {
     property int maxHeight: height;         /* 最大高度 */
     property bool moveFlag: true;           /* 是否可以移动 */
     property int borderSize: 5;             /* 有效边框大小,<=0时,大小不可以调整 */
-    property var onBorderEntered: null;     /* 进入边框回调,参数:direct,值:1,2,3,4,5,6,7,8,9 */
     property bool showBorder: false;        /* 是否显示边框 */
 
     /* 私有属性 */
@@ -31,6 +30,7 @@ Item {
         anchors.left: parent.left;
         anchors.top: parent.top;
         MouseArea {
+            id: left_top_area;
             anchors.fill: parent;
             hoverEnabled: true;
             onEntered: enter(1);
@@ -49,6 +49,7 @@ Item {
         anchors.right: right_top.left;
         anchors.top: parent.top;
         MouseArea {
+            id: top_area;
             anchors.fill: parent;
             hoverEnabled: true;
             onEntered: enter(2);
@@ -67,6 +68,7 @@ Item {
         anchors.right: parent.right;
         anchors.top: parent.top;
         MouseArea {
+            id: right_top_area;
             anchors.fill: parent;
             hoverEnabled: true;
             onEntered: enter(3);
@@ -85,6 +87,7 @@ Item {
         anchors.top: left_top.bottom;
         anchors.bottom: left_bottom.top;
         MouseArea {
+            id: left_area;
             anchors.fill: parent;
             hoverEnabled: true;
             onEntered: enter(4);
@@ -104,6 +107,7 @@ Item {
         anchors.bottom: bottom.top;
         MouseArea {
             property point clickPos;
+            id: center_area;
             anchors.fill: parent;
             onEntered: enter(5);
             onPressed: clickPos = Qt.point(mouse.x, mouse.y);
@@ -126,6 +130,7 @@ Item {
         anchors.top: right_top.bottom;
         anchors.bottom: right_bottom.top;
         MouseArea {
+            id: right_area;
             anchors.fill: parent;
             hoverEnabled: true;
             onEntered: enter(6);
@@ -144,6 +149,7 @@ Item {
         anchors.left: parent.left;
         anchors.bottom: parent.bottom;
         MouseArea {
+            id: left_bottom_area;
             anchors.fill: parent;
             hoverEnabled: true;
             onEntered: enter(7);
@@ -162,6 +168,7 @@ Item {
         anchors.right: right_bottom.left;
         anchors.bottom: parent.bottom;
         MouseArea {
+            id: bottom_area;
             anchors.fill: parent;
             hoverEnabled: true;
             onEntered: enter(8);
@@ -180,6 +187,7 @@ Item {
         anchors.right: parent.right;
         anchors.bottom: parent.bottom;
         MouseArea {
+            id: right_bottom_area;
             anchors.fill: parent;
             hoverEnabled: true;
             onEntered: enter(9);
@@ -191,8 +199,27 @@ Item {
     }
 
     function enter(direct) {
-        if (borderSize > 0 && 'function' === typeof(onBorderEntered)) {
-            onBorderEntered(direct);
+        if (borderSize <= 0) {
+            return;
+        }
+        if (1 === direct) {
+            left_top_area.cursorShape = Qt.SizeFDiagCursor;
+        } else if (2 === direct) {
+            top_area.cursorShape = Qt.SizeVerCursor;
+        } else if (3 === direct) {
+            right_top_area.cursorShape = Qt.SizeBDiagCursor;
+        } else if (4 === direct) {
+            left_area.cursorShape = Qt.SizeHorCursor;
+        } else if (5 === direct) {
+            center_area.cursorShape = Qt.ArrowCursor;
+        } else if (6 === direct) {
+            right_area.cursorShape = Qt.SizeHorCursor;
+        } else if (7 === direct) {
+            left_bottom_area.cursorShape = Qt.SizeBDiagCursor;
+        } else if (8 === direct) {
+            bottom_area.cursorShape = Qt.SizeVerCursor;
+        } else if (9 === direct) {
+            right_bottom_area.cursorShape = Qt.SizeFDiagCursor;
         }
     }
 

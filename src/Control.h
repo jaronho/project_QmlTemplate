@@ -47,9 +47,6 @@ signals:
     void sigInitOk(void);
 
 public slots:
-    /* 设置鼠标 */
-    void onSetCursor(int cursor);
-
     /* 日志记录 */
     void onLogRecord(QString str);
 

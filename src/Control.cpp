@@ -25,11 +25,5 @@ void Control::notifyInitOk(void) {
     emit sigInitOk();
 }
 
-void Control::onSetCursor(int cursor) {
-    if (mWin && cursor >= 0 && cursor <= Qt::LastCursor) {
-        mWin->setCursor(QCursor((Qt::CursorShape)cursor));
-    }
-}
-
 void Control::onLogRecord(QString str) {
 }
