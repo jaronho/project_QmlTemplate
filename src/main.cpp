@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("control", Control::getInstance());
     /* step2:加载QML界面 */
-    engine.load(QUrl(QStringLiteral("qrc:/qml/UIRoot.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/qml/Root.qml")));
     if (engine.rootObjects().isEmpty()) {
         return -1;
     }

@@ -1,10 +1,11 @@
 import QtQuick 2.9
 import QtQuick.Window 2.2
+import "ui" as UI
+import "xwidget" as XWidget
 
 Window {
     id: window;
     title: qsTr("QmlTemplate");
-    color: "#EEEEEE";
 
     property bool _isFixedSize: false;  /* 是否固定大小 */
 
@@ -24,7 +25,7 @@ Window {
     }
 
     /* 显示器 */
-    XResizeItem {
+    XWidget.XResizeItem {
         id: displayer;
         container: window;
         minWidth: window.minimumWidth;
@@ -32,13 +33,37 @@ Window {
         maxWidth: window.maximumWidth;
         maxHeight: window.maximumHeight;
         moveFlag: true;
-        borderSize: _isFixedSize ? 0 : 5;
+        borderSize: _isFixedSize ? 0 : 3;
         onBorderEntered: handleBorderEntered;
         showBorder: false;
 
-        /* 主界面 */
-        UIMain {
-            id: ui_main;
+        /* 背景层 */
+        Item {
+            id: layer_background;
+            anchors.fill: parent;
+
+            UI.UIBackground {
+                id: ui_background;
+                anchors.fill: parent;
+            }
+        }
+
+        /* 场景层 */
+        Item {
+            id: layer_scene;
+            anchors.left: parent.left;
+            anchors.leftMargin: displayer.borderSize;
+            anchors.top: parent.top;
+            anchors.topMargin: displayer.borderSize;
+            anchors.right: parent.right;
+            anchors.rightMargin: displayer.borderSize;
+            anchors.bottom: parent.bottom;
+            anchors.bottomMargin: displayer.borderSize;
+
+            UI.UIScene {
+                id: ui_scene;
+                anchors.fill: parent;
+            }
         }
     }
 

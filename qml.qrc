@@ -1,9 +1,10 @@
 <RCC>
     <qresource prefix="/">
+        <file>qml/ui/UIBackground.qml</file>
+        <file>qml/ui/UIScene.qml</file>
+        <file>qml/xwidget/XResizeItem.qml</file>
         <file>qml/Connector.qml</file>
         <file>qml/Processor.qml</file>
-        <file>qml/UIMain.qml</file>
-        <file>qml/UIRoot.qml</file>
-        <file>qml/XResizeItem.qml</file>
+        <file>qml/Root.qml</file>
     </qresource>
 </RCC>

@@ -16,8 +16,8 @@ Item {
     /* 私有属性 */
     QtObject {
         id: self;
-        property bool _isPressed: false;
-        property point _prePoint: Qt.point(0, 0);
+        property bool mIsPressed: false;
+        property point mPrePoint: Qt.point(0, 0);
     }
 
     width: container ? container.width : parent.width;
@@ -54,7 +54,7 @@ Item {
             onEntered: enter(2);
             onPressed: press(mouse);
             onReleased: release();
-            onMouseYChanged: positionChange(Qt.point(self._prePoint.x, mouseY), 2);
+            onMouseYChanged: positionChange(Qt.point(self.mPrePoint.x, mouseY), 2);
         }
         color: showBorder ? "blue" : "transparent";
     }
@@ -90,7 +90,7 @@ Item {
             onEntered: enter(4);
             onPressed: press(mouse);
             onReleased: release();
-            onMouseXChanged: positionChange(Qt.point(mouseX, self._prePoint.y), 4);
+            onMouseXChanged: positionChange(Qt.point(mouseX, self.mPrePoint.y), 4);
         }
         color: showBorder ? "blue" : "transparent";
     }
@@ -131,7 +131,7 @@ Item {
             onEntered: enter(6);
             onPressed: press(mouse);
             onReleased: release();
-            onMouseXChanged: positionChange(Qt.point(mouseX, self._prePoint.y), 6);
+            onMouseXChanged: positionChange(Qt.point(mouseX, self.mPrePoint.y), 6);
         }
         color: showBorder ? "blue" : "transparent";
     }
@@ -167,7 +167,7 @@ Item {
             onEntered: enter(8);
             onPressed: press(mouse);
             onReleased: release();
-            onMouseYChanged: positionChange(Qt.point(self._prePoint.x, mouseY), 8);
+            onMouseYChanged: positionChange(Qt.point(self.mPrePoint.x, mouseY), 8);
         }
         color: showBorder ? "blue" : "transparent";
     }
@@ -197,19 +197,19 @@ Item {
     }
 
     function press(mouse) {
-        self._isPressed = true;
-        self._prePoint = Qt.point(mouse.x, mouse.y);
+        self.mIsPressed = true;
+        self.mPrePoint = Qt.point(mouse.x, mouse.y);
     }
 
     function release() {
-        self._isPressed = false;
+        self.mIsPressed = false;
     }
 
     function positionChange(nowPoint, direct) {
-        if (!self._isPressed || !container || borderSize <= 0) {
+        if (!self.mIsPressed || !container || borderSize <= 0) {
             return
         }
-        var delta = Qt.point(nowPoint.x - self._prePoint.x, nowPoint.y - self._prePoint.y);
+        var delta = Qt.point(nowPoint.x - self.mPrePoint.x, nowPoint.y - self.mPrePoint.y);
         var tmpX = container.x, tmpY = container.y;
         var tmpW = container.width, tmpH = container.height;
         if (1 === direct) {
