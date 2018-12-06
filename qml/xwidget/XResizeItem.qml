@@ -29,15 +29,18 @@ Item {
         height: borderSize;
         anchors.left: parent.left;
         anchors.top: parent.top;
-        MouseArea {
-            id: left_top_area;
+        /*MouseArea {
             anchors.fill: parent;
             hoverEnabled: true;
-            onEntered: enter(1);
+            onEntered: {
+                if ('undefined' !== typeof(cursorShape)) {
+                    cursorShape = Qt.SizeFDiagCursor;
+                }
+            }
             onPressed: press(mouse);
             onReleased: release();
             onPositionChanged: positionChange(mouse, 1);
-        }
+        }*/
         color: showBorder ? "red" : "transparent";
     }
 
@@ -48,15 +51,18 @@ Item {
         anchors.left: left_top.right;
         anchors.right: right_top.left;
         anchors.top: parent.top;
-        MouseArea {
-            id: top_area;
+        /*MouseArea {
             anchors.fill: parent;
             hoverEnabled: true;
-            onEntered: enter(2);
+            onEntered: {
+                if ('undefined' !== typeof(cursorShape)) {
+                    cursorShape = Qt.SizeVerCursor;
+                }
+            }
             onPressed: press(mouse);
             onReleased: release();
             onMouseYChanged: positionChange(Qt.point(self.mPrePoint.x, mouseY), 2);
-        }
+        }*/
         color: showBorder ? "blue" : "transparent";
     }
 
@@ -67,15 +73,18 @@ Item {
         height: borderSize;
         anchors.right: parent.right;
         anchors.top: parent.top;
-        MouseArea {
-            id: right_top_area;
+        /*MouseArea {
             anchors.fill: parent;
             hoverEnabled: true;
-            onEntered: enter(3);
+            onEntered: {
+                if ('undefined' !== typeof(cursorShape)) {
+                    cursorShape = Qt.SizeBDiagCursor;
+                }
+            }
             onPressed: press(mouse);
             onReleased: release();
             onPositionChanged: positionChange(mouse, 3);
-        }
+        }*/
         color: showBorder ? "red" : "transparent";
     }
 
@@ -86,15 +95,18 @@ Item {
         anchors.left: parent.left;
         anchors.top: left_top.bottom;
         anchors.bottom: left_bottom.top;
-        MouseArea {
-            id: left_area;
+        /*MouseArea {
             anchors.fill: parent;
             hoverEnabled: true;
-            onEntered: enter(4);
+            onEntered: {
+                if ('undefined' !== typeof(cursorShape)) {
+                    cursorShape = Qt.SizeHorCursor;
+                }
+            }
             onPressed: press(mouse);
             onReleased: release();
             onMouseXChanged: positionChange(Qt.point(mouseX, self.mPrePoint.y), 4);
-        }
+        }*/
         color: showBorder ? "blue" : "transparent";
     }
 
@@ -107,9 +119,13 @@ Item {
         anchors.bottom: bottom.top;
         MouseArea {
             property point clickPos;
-            id: center_area;
             anchors.fill: parent;
-            onEntered: enter(5);
+            hoverEnabled: true;
+            onEntered: {
+                if ('undefined' !== typeof(cursorShape)) {
+                    cursorShape = Qt.ArrowCursor;
+                }
+            }
             onPressed: clickPos = Qt.point(mouse.x, mouse.y);
             onPositionChanged: {
                 if (pressed && container && moveFlag) {
@@ -130,10 +146,13 @@ Item {
         anchors.top: right_top.bottom;
         anchors.bottom: right_bottom.top;
         MouseArea {
-            id: right_area;
             anchors.fill: parent;
             hoverEnabled: true;
-            onEntered: enter(6);
+            onEntered: {
+                if ('undefined' !== typeof(cursorShape)) {
+                    cursorShape = Qt.SizeHorCursor;
+                }
+            }
             onPressed: press(mouse);
             onReleased: release();
             onMouseXChanged: positionChange(Qt.point(mouseX, self.mPrePoint.y), 6);
@@ -148,15 +167,18 @@ Item {
         height: borderSize;
         anchors.left: parent.left;
         anchors.bottom: parent.bottom;
-        MouseArea {
-            id: left_bottom_area;
+        /*MouseArea {
             anchors.fill: parent;
             hoverEnabled: true;
-            onEntered: enter(7);
+            onEntered: {
+                if ('undefined' !== typeof(cursorShape)) {
+                    cursorShape = Qt.SizeBDiagCursor;
+                }
+            }
             onPressed: press(mouse);
             onReleased: release();
             onPositionChanged: positionChange(mouse, 7);
-        }
+        }*/
         color: showBorder ? "red" : "transparent";
     }
 
@@ -168,10 +190,13 @@ Item {
         anchors.right: right_bottom.left;
         anchors.bottom: parent.bottom;
         MouseArea {
-            id: bottom_area;
             anchors.fill: parent;
             hoverEnabled: true;
-            onEntered: enter(8);
+            onEntered: {
+                if ('undefined' !== typeof(cursorShape)) {
+                    cursorShape = Qt.SizeVerCursor;
+                }
+            }
             onPressed: press(mouse);
             onReleased: release();
             onMouseYChanged: positionChange(Qt.point(self.mPrePoint.x, mouseY), 8);
@@ -187,40 +212,18 @@ Item {
         anchors.right: parent.right;
         anchors.bottom: parent.bottom;
         MouseArea {
-            id: right_bottom_area;
             anchors.fill: parent;
             hoverEnabled: true;
-            onEntered: enter(9);
+            onEntered: {
+                if ('undefined' !== typeof(cursorShape)) {
+                    cursorShape = Qt.SizeFDiagCursor;
+                }
+            }
             onPressed: press(mouse);
             onReleased: release();
             onPositionChanged: positionChange(mouse, 9);
         }
         color: showBorder ? "red" : "transparent";
-    }
-
-    function enter(direct) {
-        if (borderSize <= 0) {
-            return;
-        }
-        if (1 === direct) {
-            left_top_area.cursorShape = Qt.SizeFDiagCursor;
-        } else if (2 === direct) {
-            top_area.cursorShape = Qt.SizeVerCursor;
-        } else if (3 === direct) {
-            right_top_area.cursorShape = Qt.SizeBDiagCursor;
-        } else if (4 === direct) {
-            left_area.cursorShape = Qt.SizeHorCursor;
-        } else if (5 === direct) {
-            center_area.cursorShape = Qt.ArrowCursor;
-        } else if (6 === direct) {
-            right_area.cursorShape = Qt.SizeHorCursor;
-        } else if (7 === direct) {
-            left_bottom_area.cursorShape = Qt.SizeBDiagCursor;
-        } else if (8 === direct) {
-            bottom_area.cursorShape = Qt.SizeVerCursor;
-        } else if (9 === direct) {
-            right_bottom_area.cursorShape = Qt.SizeFDiagCursor;
-        }
     }
 
     function press(mouse) {
