@@ -5,13 +5,13 @@ import "xwidget" as XWidget
 
 Window {
     id: window;
-    color: Qt.rgba(255, 255, 255, 120);
+    color: "transparent";
 
     property bool _isFixedSize: false;  /* 是否固定大小 */
 
     /* 加载完毕 */
     Component.onCompleted: {
-        _isFixedSize = initializeWindow(0, 640, 480, 320, 240, 960, 720);
+        _isFixedSize = initializeWindow(0, 640, 480, 640, 480, 640, 480);
     }
 
     /* 连接器 */
