@@ -17,10 +17,6 @@ Control* Control::getInstance(void) {
 void Control::init(void) {
 }
 
-void Control::setWindow(QQuickWindow* win) {
-    mWin = win;
-}
-
 void Control::notifyInitOk(void) {
     emit sigInitOk();
 }

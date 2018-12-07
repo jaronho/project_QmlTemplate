@@ -18,7 +18,7 @@ private:
      * Param:   void
      * Return:  void
      */
-    Control(void) : mWin(nullptr) {}
+    Control(void) {}
 
 public:
     /*
@@ -31,9 +31,6 @@ public:
 public:
     /* 初始化 */
     void init(void);
-
-    /* 设置窗体 */
-    void setWindow(QQuickWindow* win);
 
     /* 通知初始成功 */
     void notifyInitOk(void);
@@ -49,9 +46,6 @@ signals:
 public slots:
     /* 日志记录 */
     void onLogRecord(QString str);
-
-private:
-    QQuickWindow* mWin;
 };
 
 #endif // _CONTROL_H_

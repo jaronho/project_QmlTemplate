@@ -132,6 +132,7 @@ Item {
                     var delta = Qt.point(mouse.x - clickPos.x, mouse.y - clickPos.y);
                     container.x += delta.x;
                     container.y += delta.y;
+
                 }
             }
         }

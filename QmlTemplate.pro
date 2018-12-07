@@ -1,4 +1,4 @@
-QT += quick
+QT += quickwidgets
 CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use
@@ -21,6 +21,7 @@ HEADERS += \
     src/jhsdk/pugixml/pugixml.hpp \
     src/jhsdk/shareprefs/SharePrefs.h \
     src/jhsdk/xmlhelper/XmlHelper.h \
+    src/XResizeWindow.h \
     src/Control.h
 
 SOURCES += \
@@ -31,8 +32,9 @@ SOURCES += \
     src/jhsdk/pugixml/pugixml.cpp \
     src/jhsdk/shareprefs/SharePrefs.cpp \
     src/jhsdk/xmlhelper/XmlHelper.cpp \
-    src/main.cpp \
-    src/Control.cpp
+    src/XResizeWindow.cpp \
+    src/Control.cpp \
+    src/main.cpp
 
 RESOURCES += \
     script.qrc \
