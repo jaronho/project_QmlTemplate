@@ -83,6 +83,18 @@ void XResizeWindow::setContextProperty(const QString& name, const QVariant& valu
     mWidget->rootContext()->setContextProperty(name, value);
 }
 
+void XResizeWindow::setTitle(QString title) {
+    mWidget->setWindowTitle(title);
+}
+
+void XResizeWindow::setIcon(QIcon icon) {
+    mWidget->setWindowIcon(icon);
+}
+
+void XResizeWindow::setIconText(QString text) {
+    mWidget->setWindowIconText(text);
+}
+
 void XResizeWindow::setSource(const QUrl& source) {
     mWidget->setSource(source);
 }

@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
     QApplication::setAttribute(Qt::AA_UseSoftwareOpenGL);
     QApplication app(argc, argv);
     /* step2:初始窗口 */
-    XResizeWindow window(QSize(640, 480), QSize(320, 240), QSize(800, 600), true);
+    XResizeWindow window(QSize(640, 480), QSize(640, 480), QSize(640, 480), true);
     window.setFlag(Qt::Window, true);
 //    window.setFlag(Qt::FramelessWindowHint, true);
     window.setContextProperty("control", Control::getInstance());

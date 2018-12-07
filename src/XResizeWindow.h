@@ -29,6 +29,9 @@ public:
     void setFlag(Qt::WindowType flag, bool on = true);
     void setContextProperty(const QString& name, QObject* value);
     void setContextProperty(const QString& name, const QVariant& value);
+    void setTitle(QString title);
+    void setIcon(QIcon icon);
+    void setIconText(QString text);
     void setSource(const QUrl& source);
     void show(void);
 
