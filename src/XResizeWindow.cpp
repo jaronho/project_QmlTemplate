@@ -1,50 +1,44 @@
 #include "XResizeWindow.h"
 #include <QQmlContext>
 
+XResizeWindow::XQuickWidget::XQuickWidget(QWidget* parent) : QQuickWidget(parent) {
+    mIsDragging = false;
+    mDraggable = true;
+}
+
+void XResizeWindow::XQuickWidget::setDraggable(bool on) {
+    mDraggable = on;
+}
+
+void XResizeWindow::XQuickWidget::resizeEvent(QResizeEvent* event) {
+}
+
+void XResizeWindow::XQuickWidget::mousePressEvent(QMouseEvent* event) {
+    if (Qt::LeftButton == event->button()) {
+        mIsDragging = true;
+        mDragPosition = event->pos();
+    }
+}
+
+void XResizeWindow::XQuickWidget::mouseReleaseEvent(QMouseEvent* event) {
+    if (Qt::LeftButton == event->button()) {
+        mIsDragging = false;
+    }
+}
+
+void XResizeWindow::XQuickWidget::mouseMoveEvent(QMouseEvent* event) {
+    if (mIsDragging && mDraggable) {
+        move(event->globalPos() - mDragPosition);
+    }
+}
+
 static const char* XRW_WIDTH = "xrw_width";
 static const char* XRW_HEIGHT = "xrw_height";
 
-XResizeWindow::XQuickWidget::XQuickWidget(QWidget* parent) : QQuickWidget(parent) {
-    mIsPressed = false;
-    mIsCanMove = true;
-}
-
-void XResizeWindow::XQuickWidget::setIsCanMove(bool on) {
-    mIsCanMove = on;
-}
-
-void XResizeWindow::XQuickWidget::resizeEvent(QResizeEvent* resize) {
-}
-
-void XResizeWindow::XQuickWidget::mousePressEvent(QMouseEvent* mouse) {
-    mIsPressed = true;
-    mPrePosition = mouse->globalPos();
-}
-
-void XResizeWindow::XQuickWidget::mouseReleaseEvent(QMouseEvent* mouse) {
-    mIsPressed = false;
-}
-
-void XResizeWindow::XQuickWidget::mouseMoveEvent(QMouseEvent* mouse) {
-    if (!mIsPressed) {
-        return;
-    }
-    QPoint delta = mouse->globalPos() - mPrePosition;
-    mPrePosition = mouse->globalPos();
-    if (mIsCanMove) {
-        move(pos() + delta);
-    }
-}
-
-XResizeWindow::XResizeWindow(bool sysframe, const QSize& size, const QSize& minimumSize, const QSize& maximumSize) {
+XResizeWindow::XResizeWindow(const QSize& size, const QSize& minimumSize, const QSize& maximumSize, bool draggable) {
     mWidget = new XQuickWidget();
     mWidget->setAttribute(Qt::WA_TranslucentBackground, true);
     mWidget->setClearColor(QColor(Qt::transparent));
-    if (sysframe) {
-        mWidget->setWindowFlags(Qt::Dialog);
-    } else {
-        mWidget->setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
-    }
     mWidget->setFixedSize(size);
     int minimumWidth = size.width(), minimumHeight = size.height();
     if (minimumSize.width() >= 0 && minimumSize.height() >= 0) {
@@ -58,6 +52,7 @@ XResizeWindow::XResizeWindow(bool sysframe, const QSize& size, const QSize& mini
         maximumHeight = maximumSize.height() > size.height() ? maximumSize.height() : size.height();
     }
     mWidget->setMaximumSize(QSize(maximumWidth, maximumHeight));
+    mWidget->setDraggable(draggable);
     mWidget->rootContext()->setContextProperty(XRW_WIDTH, size.width());
     mWidget->rootContext()->setContextProperty(XRW_HEIGHT, size.height());
 }
@@ -66,8 +61,12 @@ XResizeWindow::~XResizeWindow(void) {
     delete mWidget;
 }
 
-void XResizeWindow::setMoveFlag(bool on) {
-    mWidget->setIsCanMove(on);
+void XResizeWindow::setFlags(Qt::WindowFlags flags) {
+    mWidget->setWindowFlags(flags);
+}
+
+void XResizeWindow::setFlag(Qt::WindowType flag, bool on) {
+    mWidget->setWindowFlag(flag, on);
 }
 
 void XResizeWindow::setContextProperty(const QString& name, QObject* value) {

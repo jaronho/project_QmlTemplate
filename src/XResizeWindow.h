@@ -8,24 +8,25 @@ private:
     class XQuickWidget : public QQuickWidget {
     public:
         XQuickWidget(QWidget* parent = nullptr);
-        void setIsCanMove(bool on);
+        void setDraggable(bool on);
     protected:
-        void resizeEvent(QResizeEvent* resize);
-        void mousePressEvent(QMouseEvent* mouse);
-        void mouseReleaseEvent(QMouseEvent* mouse);
-        void mouseMoveEvent(QMouseEvent* mouse);
+        void resizeEvent(QResizeEvent* event);
+        void mousePressEvent(QMouseEvent* event);
+        void mouseReleaseEvent(QMouseEvent* event);
+        void mouseMoveEvent(QMouseEvent* event);
     private:
-        bool mIsPressed;
-        QPoint mPrePosition;
-        bool mIsCanMove;
+        bool mIsDragging;
+        QPoint mDragPosition;
+        bool mDraggable;
     };
 
 public:
-    XResizeWindow(bool sysframe, const QSize& size, const QSize& minimumSize = QSize(-1, -1), const QSize& maximumSize = QSize(-1, -1));
+    XResizeWindow(const QSize& size, const QSize& minimumSize = QSize(-1, -1), const QSize& maximumSize = QSize(-1, -1), bool draggable = true);
     ~XResizeWindow(void);
 
 public:
-    void setMoveFlag(bool on);
+    void setFlags(Qt::WindowFlags flags);
+    void setFlag(Qt::WindowType flag, bool on = true);
     void setContextProperty(const QString& name, QObject* value);
     void setContextProperty(const QString& name, const QVariant& value);
     void setSource(const QUrl& source);
