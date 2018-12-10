@@ -34,6 +34,12 @@ public:
     void setIconText(QString text);
     void setSource(const QUrl& source);
     void show(void);
+    void hide(void);
+    void showFullScreen(void);
+    void showMaximized(void);
+    void showMinimized(void);
+    void showNormal(void);
+    void close(void);
 
 private:
     XQuickWidget* mWidget;

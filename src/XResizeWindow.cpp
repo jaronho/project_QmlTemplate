@@ -102,3 +102,27 @@ void XResizeWindow::setSource(const QUrl& source) {
 void XResizeWindow::show(void) {
     mWidget->show();
 }
+
+void XResizeWindow::hide(void) {
+    mWidget->hide();
+}
+
+void XResizeWindow::showFullScreen(void) {
+    mWidget->showFullScreen();
+}
+
+void XResizeWindow::showMaximized(void) {
+    mWidget->showMaximized();
+}
+
+void XResizeWindow::showMinimized(void) {
+    mWidget->showMinimized();
+}
+
+void XResizeWindow::showNormal(void) {
+    mWidget->showNormal();
+}
+
+void XResizeWindow::close(void) {
+    mWidget->close();
+}
