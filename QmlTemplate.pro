@@ -16,6 +16,22 @@ unix {
             message("platform - unix(x86,64-bit)")
         }
         HEADERS += \
+            src/jhsdk/libcurl/platform-linux/curl/curl.h \
+            src/jhsdk/libcurl/platform-linux/curl/curlver.h \
+            src/jhsdk/libcurl/platform-linux/curl/easy.h \
+            src/jhsdk/libcurl/platform-linux/curl/mprintf.h \
+            src/jhsdk/libcurl/platform-linux/curl/multi.h \
+            src/jhsdk/libcurl/platform-linux/curl/stdcheaders.h \
+            src/jhsdk/libcurl/platform-linux/curl/system.h \
+            src/jhsdk/libcurl/platform-linux/curl/typecheck-gcc.h \
+            src/jhsdk/libcurl/platform-linux/curl/urlapi.h \
+            src/jhsdk/libcurl/platform-linux/CURLEx.h
+        SOURCES += \
+            src/jhsdk/libcurl/platform-linux/CURLEx.cpp
+        LIBS += $$PWD/src/jhsdk/libcurl/platform-linux/curl/libcrypto.a
+        LIBS += $$PWD/src/jhsdk/libcurl/platform-linux/curl/libcurl.a
+        LIBS += $$PWD/src/jhsdk/libcurl/platform-linux/curl/libssl.a
+        HEADERS += \
             src/jhsdk/libevent/platform-linux/include/event2/buffer.h \
             src/jhsdk/libevent/platform-linux/include/event2/buffer_compat.h \
             src/jhsdk/libevent/platform-linux/include/event2/bufferevent.h \
@@ -60,6 +76,22 @@ win32 {
     } else {
         message("platform - win32(x86,64-bit)")
     }
+    HEADERS += \
+        src/jhsdk/libcurl/platform-win32/curl/curl.h \
+        src/jhsdk/libcurl/platform-win32/curl/curlbuild.h \
+        src/jhsdk/libcurl/platform-win32/curl/curlrules.h \
+        src/jhsdk/libcurl/platform-win32/curl/curlver.h \
+        src/jhsdk/libcurl/platform-win32/curl/easy.h \
+        src/jhsdk/libcurl/platform-win32/curl/mprintf.h \
+        src/jhsdk/libcurl/platform-win32/curl/multi.h \
+        src/jhsdk/libcurl/platform-win32/curl/stdcheaders.h \
+        src/jhsdk/libcurl/platform-win32/curl/typecheck-gcc.h \
+        src/jhsdk/libcurl/platform-win32/CURLEx.h
+    SOURCES += \
+        src/jhsdk/libcurl/platform-linux/CURLEx.cpp
+        LIBS += $$PWD/src/jhsdk/libcurl/platform-win32/curl/libcrypto.lib
+        LIBS += $$PWD/src/jhsdk/libcurl/platform-win32/curl/llibcurl.lib
+        LIBS += $$PWD/src/jhsdk/libcurl/platform-win32/curl/libssl.lib
     HEADERS += \
         src/jhsdk/libevent/platform-win32/include/event2/buffer.h \
         src/jhsdk/libevent/platform-win32/include/event2/buffer_compat.h \
@@ -112,6 +144,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 HEADERS += \
     src/jhsdk/common/Common.h \
+    src/jhsdk/httpclient/HttpClient.h \
     src/jhsdk/httpserver/HttpServer.h \
     src/jhsdk/httpserver/MultipartFormData.h \
     src/jhsdk/inifile/IniFile.h \
@@ -123,11 +156,13 @@ HEADERS += \
     src/jhsdk/timer/timer.h \
     src/jhsdk/timer/TimerManager.h \
     src/jhsdk/xmlhelper/XmlHelper.h \
+    src/jhsdk/Global.h \
     src/XResizeWindow.h \
     src/Control.h
 
 SOURCES += \
     src/jhsdk/common/Common.cpp \
+    src/jhsdk/httpclient/HttpClient.cpp \
     src/jhsdk/httpserver/HttpServer.cpp \
     src/jhsdk/httpserver/MultipartFormData.cpp \
     src/jhsdk/inifile/IniFile.cpp \
@@ -138,6 +173,7 @@ SOURCES += \
     src/jhsdk/timer/timer.c \
     src/jhsdk/timer/TimerManager.cpp \
     src/jhsdk/xmlhelper/XmlHelper.cpp \
+    src/jhsdk/Global.cpp \
     src/XResizeWindow.cpp \
     src/Control.cpp \
     src/main.cpp
