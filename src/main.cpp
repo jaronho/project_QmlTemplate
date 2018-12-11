@@ -6,18 +6,20 @@
 #include "XResizeWindow.h"
 #include "Control.h"
 
-/* 主函数 */
 int main(int argc, char* argv[]) {
-    /* step1:初始化数据,逻辑模块*/
     initAppDirectory(argv[0]);
+    logRecord("######################################################################");
+    logRecord("#############################  Starting  #############################");
+    logRecord("######################################################################");
+    /* step1:初始化模块*/
     Control::getInstance()->init();
-    /* step2:初始Qt程序*/
+    /* step2:初始化Qt程序*/
 #if defined(Q_OS_WIN)
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
     QApplication::setAttribute(Qt::AA_UseSoftwareOpenGL);
     QApplication app(argc, argv);
-    /* step3:初始Qt窗口 */
+    /* step3:初始化Qt窗口 */
     XResizeWindow window(QSize(640, 480), QSize(320, 240), QSize(800, 600), true);
     window.setFlag(Qt::Window, true);
 //    window.setFlag(Qt::FramelessWindowHint, true);
