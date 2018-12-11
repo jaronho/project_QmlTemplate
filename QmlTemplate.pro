@@ -120,6 +120,8 @@ HEADERS += \
     src/jhsdk/pugixml/pugiconfig.hpp \
     src/jhsdk/pugixml/pugixml.hpp \
     src/jhsdk/shareprefs/SharePrefs.h \
+    src/jhsdk/timer/timer.h \
+    src/jhsdk/timer/TimerManager.h \
     src/jhsdk/xmlhelper/XmlHelper.h \
     src/XResizeWindow.h \
     src/Control.h
@@ -133,6 +135,8 @@ SOURCES += \
     src/jhsdk/logfile/logfilewrapper.c \
     src/jhsdk/pugixml/pugixml.cpp \
     src/jhsdk/shareprefs/SharePrefs.cpp \
+    src/jhsdk/timer/timer.c \
+    src/jhsdk/timer/TimerManager.cpp \
     src/jhsdk/xmlhelper/XmlHelper.cpp \
     src/XResizeWindow.cpp \
     src/Control.cpp \
