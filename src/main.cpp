@@ -17,8 +17,8 @@ int main(int argc, char* argv[]) {
 #if defined(Q_OS_WIN)
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
-    QApplication::setAttribute(Qt::AA_UseSoftwareOpenGL);
-    QApplication app(argc, argv);
+    QGuiApplication::setAttribute(Qt::AA_UseSoftwareOpenGL);
+    QGuiApplication app(argc, argv);
     /* step3:初始化Qt窗口 */
     XResizeWindow window(QSize(640, 480), QSize(320, 240), QSize(800, 600), true);
     window.setFlag(Qt::Window, true);

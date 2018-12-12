@@ -1,13 +1,13 @@
 #ifndef XRESIZEWINDOW_H
 #define XRESIZEWINDOW_H
 
-#include <QQuickWidget>
+#include <QQuickView>
 
 class XResizeWindow{
 private:
-    class XQuickWidget : public QQuickWidget {
+    class XQuickView : public QQuickView {
     public:
-        XQuickWidget(QWidget* parent = nullptr);
+        XQuickView(QWindow* parent = nullptr);
         void setDraggable(bool on);
     protected:
         void resizeEvent(QResizeEvent* event);
@@ -31,7 +31,6 @@ public:
     void setContextProperty(const QString& name, const QVariant& value);
     void setTitle(QString title);
     void setIcon(QIcon icon);
-    void setIconText(QString text);
     void setSource(const QUrl& source);
     void show(void);
     void hide(void);
@@ -42,7 +41,7 @@ public:
     void close(void);
 
 private:
-    XQuickWidget* mWidget;
+    XQuickView* mView;
 };
 
 #endif // XRESIZEWINDOW_H
