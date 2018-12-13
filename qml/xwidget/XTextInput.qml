@@ -16,6 +16,7 @@ Item {
     property alias inputSelectedTextColor: input.selectedTextColor; /* 被选中点文本颜色 */
     property alias inputTextOpacity: input.opacity;                 /* 输入文本透明度 */
     property alias inputText: input.text;                           /* 输入文本 */
+    property alias inputFontSize: input.font.pixelSize;             /* 输入框字体大小 */
     property var onInputTextEdited: null;                           /* 输入框编辑后的回调函数 */
     property var onInputEditingFinished: null;                      /* 输入按下返回键,回车键,失去焦点的回调函数 */
     property var onInputAccepted: null;                             /* 输入按下返回键,回车键的回调函数 */
