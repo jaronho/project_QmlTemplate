@@ -3,6 +3,7 @@
         <file>qml/ui/UIBackground.qml</file>
         <file>qml/ui/UIScene.qml</file>
         <file>qml/xwidget/XResizeItem.qml</file>
+        <file>qml/xwidget/XTextInput.qml</file>
         <file>qml/Connector.qml</file>
         <file>qml/Processor.qml</file>
         <file>qml/Root.qml</file>
