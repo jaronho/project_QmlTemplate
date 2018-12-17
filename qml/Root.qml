@@ -30,14 +30,7 @@ Item {
         /* 场景层 */
         UI.UIScene  {
             id: layer_scene;
-            anchors.left: parent.left;
-            anchors.leftMargin: displayer.borderSize;
-            anchors.top: parent.top;
-            anchors.topMargin: displayer.borderSize;
-            anchors.right: parent.right;
-            anchors.rightMargin: displayer.borderSize;
-            anchors.bottom: parent.bottom;
-            anchors.bottomMargin: displayer.borderSize;
+            anchors.fill: parent;
         }
     }
 }
