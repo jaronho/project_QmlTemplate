@@ -2,6 +2,7 @@
     <qresource prefix="/">
         <file>qml/ui/UIBackground.qml</file>
         <file>qml/ui/UIScene.qml</file>
+        <file>qml/xwidget/XButton.qml</file>
         <file>qml/xwidget/XResizeItem.qml</file>
         <file>qml/xwidget/XTextInput.qml</file>
         <file>qml/Connector.qml</file>

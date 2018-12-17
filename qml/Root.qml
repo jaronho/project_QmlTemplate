@@ -4,8 +4,7 @@ import "ui" as UI
 
 Item {
     id: root;
-    width: xrw_width;
-    height: xrw_height;
+    anchors.fill: parent;
 
     /* 连接器 */
     Connector {

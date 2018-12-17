@@ -1,6 +1,6 @@
 import QtQuick 2.0
+import "../xwidget"
 
 Rectangle {
     color: "#fafafa";
-    opacity: 0.5;
 }
