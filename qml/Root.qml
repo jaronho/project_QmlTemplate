@@ -1,6 +1,6 @@
 import QtQuick 2.9
 import QtQuick.Window 2.2
-import "ui" as UI
+import "ui"
 
 Item {
     id: root;
@@ -22,14 +22,20 @@ Item {
         anchors.fill: parent;
 
         /* 背景层 */
-        UI.UIBackground {
+        LayerBackground {
             id: layer_background;
             anchors.fill: parent;
         }
 
         /* 场景层 */
-        UI.UIScene  {
+        LayerScene  {
             id: layer_scene;
+            anchors.fill: parent;
+        }
+
+        /* 提示层 */
+        LayerTips  {
+            id: layer_tips;
             anchors.fill: parent;
         }
     }

@@ -1,7 +1,8 @@
 <RCC>
     <qresource prefix="/">
-        <file>qml/ui/UIBackground.qml</file>
-        <file>qml/ui/UIScene.qml</file>
+        <file>qml/ui/LayerBackground.qml</file>
+        <file>qml/ui/LayerScene.qml</file>
+        <file>qml/ui/LayerTips.qml</file>
         <file>qml/xwidget/XButton.qml</file>
         <file>qml/xwidget/XResizeItem.qml</file>
         <file>qml/xwidget/XTextInput.qml</file>
