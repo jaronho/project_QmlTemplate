@@ -1,18 +1,29 @@
+#if defined(win32) || defined(_win32) || defined(WIN32) || defined(_WIN32) || \
+    defined(win64) || defined(_win64) || defined(WIN64) || defined(_WIN64)
+#define _SYSTEM_WINDOWS_
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <dirent.h>
-#include <unistd.h>
-#include <sys/stat.h>
 #include <algorithm>
 #include <string>
 #include <vector>
 #include <functional>
+#ifdef _SYSTEM_WINDOWS_
+#include <direct.h>
+#include <io.h>
+#include <windows.h>
+#pragma warning(disable: 4996)
+#else
+#include <dirent.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#endif
 
 #define NAME_SIZE		128		/* 目录名字符最大数 */
 
 static std::vector<std::string> splitString(std::string str, const std::string& pattern) {
-	std::vector<std::string> result;
+    std::vector<std::string> result;
     if (str.empty() || pattern.empty()) {
         return result;
     }
@@ -52,14 +63,14 @@ static std::string revisalPath(std::string path) {
     return path;
 }
 
-static void searchFile(std::string dirName, const std::vector<std::string>& extList, 
-					   std::function<void(const std::string& fileName, 
-										  unsigned long fileSize, 
-										  long createTime, 
-										  long writeTime, 
-										  long accessTime)> callback, 
-					   bool recursive) {
-	if (!callback) {
+static void searchFile(std::string dirName, const std::vector<std::string>& extList,
+    std::function<void(const std::string& fileName,
+        unsigned long fileSize,
+        long createTime,
+        long writeTime,
+        long accessTime)> callback,
+    bool recursive) {
+    if (!callback) {
         return;
     }
     dirName = revisalPath(dirName);
@@ -101,7 +112,7 @@ static void searchFile(std::string dirName, const std::vector<std::string>& extL
     _findclose(handle);
 #else
     DIR* dir = opendir(dirName.c_str());
-    if (! dir) {
+    if (!dir) {
         return;
     }
     struct dirent* dirp = NULL;
@@ -125,7 +136,7 @@ static void searchFile(std::string dirName, const std::vector<std::string>& extL
                 continue;
             }
             std::string ext = subName.substr(index, subName.size() - index);
-            for (size_t i=0; i<extList.size(); ++i) {
+            for (size_t i = 0; i<extList.size(); ++i) {
                 if (extList[i] == ext) {
                     callback(subName, fileStat.st_size, fileStat.st_ctime, fileStat.st_mtime, fileStat.st_atime);
                 }
@@ -142,7 +153,7 @@ static void searchFile(std::string dirName, const std::vector<std::string>& extL
 }
 
 static std::vector<std::string> stripFileInfo(const std::string& filePath) {
-	std::string dirname = "", filename = filePath, basename = "", extname = "";
+    std::string dirname = "", filename = filePath, basename = "", extname = "";
     size_t pos = filePath.find_last_of("/\\");
     if (pos < filePath.size()) {
         dirname = filePath.substr(0, pos + 1);
@@ -187,64 +198,66 @@ static std::string getParentDir(std::string dir) {
 static std::vector<std::string> imageList;
 
 int main(int argc, char* argv[]) {
-	char path[NAME_SIZE] = { 0 };
-	/* 目录名称 */
-	if (2 == argc) {	/* 读取目录名 */
-		if (strlen(argv[1]) > NAME_SIZE) {
-			memcpy(path, argv[1], NAME_SIZE);
-		} else {
-			memcpy(path, argv[1], strlen(argv[1]));
-		}
-	} else {				/* 输入目录名 */
-		printf("please input image directory: ");
-		scanf("%s", (char*)&path);
-	}
-	printf("directory: \"%s\"\n", path);
-	std::string dir(path);
-	dir = revisalPath(dir);
-	/* 搜索文件 */
-	std::vector<std::string> extList;
-	searchFile(dir, extList, [](const std::string& fileName, unsigned long fileSize, long createTime, long writeTime, long accessTime)->void{
-		imageList.push_back(fileName);
-	}, true);
-	/* 文件名排序 */
-	std::sort(imageList.begin(), imageList.end(), [](const std::string& v1, const std::string& v2)->bool{
-		return v1 < v2;
-	});
-	/* 字符串组装 */
-	std::vector<std::string> dirInfo = splitString(dir, "/");
-	std::string fileName;
-	if (dirInfo.size() > 0) {
-		fileName = dirInfo[dirInfo.size() - 1];
-	}
-	std::string bufferQRC;
-	bufferQRC += "<RCC>\n";
+    char path[NAME_SIZE] = { 0 };
+    /* 目录名称 */
+    if (2 == argc) {	/* 读取目录名 */
+        if (strlen(argv[1]) > NAME_SIZE) {
+            memcpy(path, argv[1], NAME_SIZE);
+        }
+        else {
+            memcpy(path, argv[1], strlen(argv[1]));
+        }
+    }
+    else {				/* 输入目录名 */
+        printf("please input image directory: ");
+        scanf("%s", (char*)&path);
+    }
+    printf("directory: \"%s\"\n", path);
+    std::string dir(path);
+    dir = revisalPath(dir);
+    /* 搜索文件 */
+    std::vector<std::string> extList;
+    searchFile(dir, extList, [](const std::string& fileName, unsigned long fileSize, long createTime, long writeTime, long accessTime)->void {
+        imageList.push_back(fileName);
+    }, true);
+    /* 文件名排序 */
+    std::sort(imageList.begin(), imageList.end(), [](const std::string& v1, const std::string& v2)->bool {
+        return v1 < v2;
+    });
+    /* 字符串组装 */
+    std::vector<std::string> dirInfo = splitString(dir, "/");
+    std::string fileName;
+    if (dirInfo.size() > 0) {
+        fileName = dirInfo[dirInfo.size() - 1];
+    }
+    std::string bufferQRC;
+    bufferQRC += "<RCC>\n";
     bufferQRC += "    <qresource prefix=\"/\">\n";
-	std::string bufferJS;
-	bufferJS += ".pragma library\n";
-	bufferJS += "var resource_image_list = [\n";
-	for (size_t i = 0; i < imageList.size(); ++i) {
-		std::vector<std::string> fileInfo = stripFileInfo(imageList[i]);
-		std::string::size_type pos = fileInfo[0].find_first_of(fileName);
-		std::string filePath = fileInfo[0].substr(pos) + fileInfo[1];
-		bufferQRC += "        <file>" + filePath + "</file>\n";
-		bufferJS += "\"" + filePath + "\"" + (i < imageList.size() - 1 ? "," : "") + "\n";
-	}
-	bufferQRC += "    </qresource>\n";
-	bufferQRC += "</RCC>\n";
-	bufferJS += "];";
-	/* 写文件 */
-	FILE* fpQRC = fopen((getParentDir(dir) + "/" + fileName + ".qrc").c_str(), "wb");
+    std::string bufferJS;
+    bufferJS += ".pragma library\n";
+    bufferJS += "var resource_image_list = [\n";
+    for (size_t i = 0; i < imageList.size(); ++i) {
+        std::vector<std::string> fileInfo = stripFileInfo(imageList[i]);
+        std::string::size_type pos = fileInfo[0].find_first_of(fileName);
+        std::string filePath = fileInfo[0].substr(pos) + fileInfo[1];
+        bufferQRC += "        <file>" + filePath + "</file>\n";
+        bufferJS += "\"" + filePath + "\"" + (i < imageList.size() - 1 ? "," : "") + "\n";
+    }
+    bufferQRC += "    </qresource>\n";
+    bufferQRC += "</RCC>\n";
+    bufferJS += "];";
+    /* 写文件 */
+    FILE* fpQRC = fopen((getParentDir(dir) + "/" + fileName + ".qrc").c_str(), "wb");
     if (fpQRC) {
         fwrite(bufferQRC.c_str(), bufferQRC.size(), sizeof(char), fpQRC);
-		fflush(fpQRC);
-		fclose(fpQRC);
+        fflush(fpQRC);
+        fclose(fpQRC);
     }
-	FILE* fpJS = fopen((getParentDir(dir) + "/ResourceImageList.js").c_str(), "wb");
+    FILE* fpJS = fopen((getParentDir(dir) + "/ResourceImageList.js").c_str(), "wb");
     if (fpJS) {
         fwrite(bufferJS.c_str(), bufferJS.size(), sizeof(char), fpJS);
-		fflush(fpJS);
-		fclose(fpJS);
+        fflush(fpJS);
+        fclose(fpJS);
     }
-	return 0;
+    return 0;
 }
