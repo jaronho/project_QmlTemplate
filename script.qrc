@@ -4,5 +4,7 @@
         <file>script/jhsdk/Log.js</file>
         <file>script/jhsdk/Timer.js</file>
         <file>script/jhsdk/Util.js</file>
+        <file>script/Resource.js</file>
+        <file>script/ResourceImageList.js</file>
     </qresource>
 </RCC>
