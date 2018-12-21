@@ -4,7 +4,7 @@
 #include <QQuickWidget>
 #include "jhsdk/Global.h"
 #include "XResizeWindow.h"
-#include "Control.h"
+#include "Proxy.h"
 
 int main(int argc, char* argv[]) {
     initAppDirectory(argv[0]);
@@ -12,7 +12,7 @@ int main(int argc, char* argv[]) {
     logRecord("#############################  Starting  #############################");
     logRecord("######################################################################");
     /* step1:初始化模块*/
-    Control::getInstance()->init();
+    Proxy::getInstance()->init();
     /* step2:初始化Qt程序*/
     // qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));   /* 集成虚拟键盘 */
 #if defined(Q_OS_WIN)
@@ -24,11 +24,11 @@ int main(int argc, char* argv[]) {
     XResizeWindow window(QSize(640, 480), QSize(320, 240), QSize(800, 600), false);
     window.setFlag(Qt::Window, true);
     // window.setFlag(Qt::FramelessWindowHint, true);
-    window.setContextProperty("control", Control::getInstance());
+    window.setContextProperty("proxy", Proxy::getInstance());
     window.setSource(QUrl(QStringLiteral("qrc:/qml/Root.qml")));
     window.show();
     /* step4:通知初始化成功 */
-    Control::getInstance()->notifyInitOk();
+    Proxy::getInstance()->notifyInitOk();
     /* step5:进入Qt主循环 */
     return app.exec();
 }
