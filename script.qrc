@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>script/jhsdk/Common.js</file>
+        <file>script/jhsdk/HTTP.js</file>
         <file>script/jhsdk/Log.js</file>
         <file>script/jhsdk/Timer.js</file>
         <file>script/jhsdk/Util.js</file>
