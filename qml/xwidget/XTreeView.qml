@@ -19,6 +19,7 @@ Item {
     ListView {
         id: listview;
         anchors.fill: parent;
+        clip: true;
         model: ListModel {
             id: listmodel;
         }
@@ -180,7 +181,7 @@ Item {
     function appendTopItem(icon, text, data) {
         var item = new XTreeItem.XTreeItem(icon, text, data);
         self.mRootItem.appendChild(item);
-        if (1 === self.mRootItem.childernCount()) {
+        if (1 === self.mRootItem.childrenCount()) {
             item.setSelectionFlag(XTreeItem.SF_CURRENT);
         }
         return item;
@@ -200,6 +201,16 @@ Item {
     function removeItem(item) {
         if (item && item.parentNode){
            item.parentNode.removeChild(item);
+        }
+    }
+
+    /* 清除 */
+    function clear() {
+        while (self.mRootItem.childrenCount() > 0) {
+            var item = self.mRootItem.childItemAt(0);
+            if (item) {
+                self.mRootItem.removeChild(item);
+            }
         }
     }
 }

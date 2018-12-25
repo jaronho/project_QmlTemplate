@@ -80,7 +80,7 @@ XTreeItem.prototype = {
         var i = this.childNodes.indexOf(item);
         this.childNodes.splice(i, 1);
         item.parentNode = null;
-        var currentSelectionFlag = item.getSelectionFlag();
+        var currentSelectionFlag = item.selectionFlag;
         item.setSelectionFlag(SF_NONE);
         if (currentSelectionFlag === SF_CURRENT) {
             if (this.childNodes.length > 0) {
@@ -90,7 +90,7 @@ XTreeItem.prototype = {
                 }
                 this.childNodes[nextCurrent].setSelectionFlag(SF_CURRENT);
             } else {
-                if (this.id !== rootItem.id) {
+                if (this.id !== self.mRootItem.id) {
                     this.setSelectionFlag(SF_CURRENT);
                 }
             }
@@ -111,14 +111,14 @@ XTreeItem.prototype = {
         }
         return -1;
     },
-    childernCount: function(recursive) {
+    childrenCount: function(recursive) {
         if (!recursive) {
             recursive = false;
         }
         var count = this.childNodes.length;
         if (recursive) {
             for (var i = 0; i < this.childNodes.length; ++i) {
-                count += this.childNodes[i].childernCount(recursive);
+                count += this.childNodes[i].childrenCount(recursive);
             }
         }
         return count;
