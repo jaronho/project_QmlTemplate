@@ -14,7 +14,7 @@ Item {
     property string imageSourcePress: "";                           /* 鼠标按下时按钮图片资源 */
     property alias textColor: hint.color;                           /* 按钮文字颜色 */
     property alias textOpacity: hint.opacity;                       /* 按钮文字透明度 */
-    property alias fontSize: hint.font.pixelSize;                   /* 按钮文字大小 */
+    property alias font: hint.font;                                 /* 按钮文字 */
     property alias text: hint.text;                                 /* 按钮文字 */
     property var onButtonEnter: null;                               /* 鼠标移到按钮上的回调函数 */
     property var onButtonExit: null;                                /* 鼠标离开按钮上的回调函数 */

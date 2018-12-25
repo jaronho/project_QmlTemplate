@@ -6,6 +6,8 @@
         <file>qml/xwidget/XButton.qml</file>
         <file>qml/xwidget/XResizeItem.qml</file>
         <file>qml/xwidget/XTextInput.qml</file>
+        <file>qml/xwidget/XTreeItem.js</file>
+        <file>qml/xwidget/XTreeView.qml</file>
         <file>qml/Connector.qml</file>
         <file>qml/Processor.qml</file>
         <file>qml/Root.qml</file>

@@ -16,7 +16,7 @@ Item {
     property alias inputSelectedTextColor: input.selectedTextColor; /* 被选中点文本颜色 */
     property alias inputTextOpacity: input.opacity;                 /* 输入文本透明度 */
     property alias inputText: input.text;                           /* 输入文本 */
-    property alias inputFontSize: input.font.pixelSize;             /* 输入框字体大小 */
+    property alias inputFont: input.font;                           /* 输入框字体大小 */
     property alias inputValidator: input.validator;                 /* 输入框验证器 */
     property alias inputEchoMode: input.echoMode;                   /* 输入框显示模式:TextInput.Password(显示密码符而不是输入的字符),TextInput.Normal(默认的显示输入的字符),TextInput.NoEcho(什么都不显示),TextInput.PasswordEchoOnEdit */
     property alias inputPasswordCharacter: input.passwordCharacter; /* 输入框设置模式为密码时显示的字符,第一个字母有效 */
