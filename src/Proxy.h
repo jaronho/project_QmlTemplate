@@ -1,15 +1,15 @@
 /**********************************************************************
 * Author:	jaron.ho
 * Date:		2017-09-12
-* Brief:	控制器,负责向QML派发消息
+* Brief:	代理器,负责C++与QML的交互
 **********************************************************************/
-#ifndef _CONTROL_H_
-#define _CONTROL_H_
+#ifndef _PROXY_H_
+#define _PROXY_H_
 
 #include <QObject>
 #include <QQuickWindow>
 
-class Control : public QObject {
+class Proxy : public QObject {
     Q_OBJECT
 
 private:
@@ -18,15 +18,15 @@ private:
      * Param:   void
      * Return:  void
      */
-    Control(void) {}
+    Proxy(void) {}
 
 public:
     /*
      * Brief:   单例
      * Param:   void
-     * Return:  Control*
+     * Return:  Proxy*
      */
-    static Control* getInstance(void);
+    static Proxy* getInstance(void);
 
 public:
     /* 初始化 */
@@ -48,4 +48,4 @@ public slots:
     void onLogRecord(QString str);
 };
 
-#endif // _CONTROL_H_
+#endif // _PROXY_H_

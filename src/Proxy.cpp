@@ -1,25 +1,25 @@
 /**********************************************************************
 * Author:	jaron.ho
 * Date:		2017-09-12
-* Brief:	控制器,负责向QML派发消息
+* Brief:	代理器,负责C++与QML的交互
 **********************************************************************/
-#include "Control.h"
+#include "Proxy.h"
 #include <QDebug>
 
-Control* Control::getInstance(void) {
-    static Control* instance = nullptr;
+Proxy* Proxy::getInstance(void) {
+    static Proxy* instance = nullptr;
     if (nullptr == instance) {
-        instance = new Control();
+        instance = new Proxy();
     }
     return instance;
 }
 
-void Control::init(void) {
+void Proxy::init(void) {
 }
 
-void Control::notifyInitOk(void) {
+void Proxy::notifyInitOk(void) {
     emit sigInitOk();
 }
 
-void Control::onLogRecord(QString str) {
+void Proxy::onLogRecord(QString str) {
 }

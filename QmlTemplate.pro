@@ -158,7 +158,7 @@ HEADERS += \
     src/jhsdk/xmlhelper/XmlHelper.h \
     src/jhsdk/Global.h \
     src/XResizeWindow.h \
-    src/Control.h
+    src/Proxy.h
 
 SOURCES += \
     src/jhsdk/common/Common.cpp \
@@ -175,7 +175,7 @@ SOURCES += \
     src/jhsdk/xmlhelper/XmlHelper.cpp \
     src/jhsdk/Global.cpp \
     src/XResizeWindow.cpp \
-    src/Control.cpp \
+    src/Proxy.cpp \
     src/main.cpp
 
 RESOURCES += \

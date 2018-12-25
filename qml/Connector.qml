@@ -14,7 +14,7 @@ Item {
      ******************************* 接收消息 *******************************
      ***********************************************************************/
     Connections {
-        target: control;
+        target: proxy;
         onSigInitOk: {
             console.log("init ok!!!");
             if ('undefined' !== typeof(processor)) {
