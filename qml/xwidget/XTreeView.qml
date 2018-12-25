@@ -2,16 +2,16 @@ import QtQuick 2.9
 import "XTreeItem.js" as XTreeItem
 
 Item {
-    property string expandIcon: "";
-    property string collapseIcon: "";
-    property color backgroundNormal: "#ffffff";
-    property color backgroundCurrent: "#308cc6";
-    property color textColorNormal: "#000000";
-    property color textColorCurrent: "#ffffff";
-    property font itemFont: Qt.font({pointSize: 14});
-    property int itemHeightOverflow: 4;
-    property int intentSpace: 20;
-    property var onCurrentItemChanged: null;
+    property string expandIcon: "";                         /* 扩展图标资源 */
+    property string collapseIcon: "";                       /* 折叠图标资源 */
+    property color backgroundNormal: "#ffffff";             /* 常态时背景颜色 */
+    property color backgroundCurrent: "#308cc6";            /* 选中态时背景颜色 */
+    property color textColorNormal: "#000000";              /* 常态时文本颜色 */
+    property color textColorCurrent: "#ffffff";             /* 选中态时文本颜色 */
+    property font itemFont: Qt.font({pointSize: 14});       /* 文本字体 */
+    property int itemHeightOverflow: 4;                     /* 选项高度溢出大小 */
+    property int intentSpace: 20;                           /* 缩进空间大小 */
+    property var onCurrentItemChanged: null;                /* 选项改变时回调函数 */
 
     width: 400;
     height: 200;
@@ -123,7 +123,7 @@ Item {
                         Image {
                             id: image_expand;
                             anchors.centerIn: parent;
-                            source: expanded ? collapseIcon : expandIcon;
+                            source: expanded ? expandIcon : collapseIcon;
                             visible: childNodes.count > 0;
                         }
                     }
