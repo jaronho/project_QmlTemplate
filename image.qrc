@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file>image/default/image_document.png</file>
+        <file>image/default/image_treeview_collapse.png</file>
+        <file>image/default/image_treeview_expand.png</file>
+        <file>image/default/image_treeview_icon.png</file>
     </qresource>
 </RCC>
