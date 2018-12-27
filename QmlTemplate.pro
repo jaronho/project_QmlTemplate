@@ -89,9 +89,9 @@ win32 {
         src/jhsdk/libcurl/platform-win32/CURLEx.h
     SOURCES += \
         src/jhsdk/libcurl/platform-linux/CURLEx.cpp
-        LIBS += $$PWD/src/jhsdk/libcurl/platform-win32/curl/libcrypto.lib
-        LIBS += $$PWD/src/jhsdk/libcurl/platform-win32/curl/libcurl.lib
-        LIBS += $$PWD/src/jhsdk/libcurl/platform-win32/curl/libssl.lib
+    LIBS += $$PWD/src/jhsdk/libcurl/platform-win32/curl/libcrypto.lib
+    LIBS += $$PWD/src/jhsdk/libcurl/platform-win32/curl/libcurl.lib
+    LIBS += $$PWD/src/jhsdk/libcurl/platform-win32/curl/libssl.lib
     HEADERS += \
         src/jhsdk/libevent/platform-win32/include/event2/buffer.h \
         src/jhsdk/libevent/platform-win32/include/event2/buffer_compat.h \
