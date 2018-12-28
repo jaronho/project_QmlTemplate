@@ -21,6 +21,7 @@ Item {
     property alias inputEchoMode: input.echoMode;                   /* 输入框显示模式:TextInput.Password(显示密码符而不是输入的字符),TextInput.Normal(默认的显示输入的字符),TextInput.NoEcho(什么都不显示),TextInput.PasswordEchoOnEdit */
     property alias inputPasswordCharacter: input.passwordCharacter; /* 输入框设置模式为密码时显示的字符,第一个字母有效 */
     property alias inputMaximumLength: input.maximumLength;         /* 输入框最大输入长度,单位是字符 */
+    property var onInputFocusChanged: null;                         /* 输入框聚焦改变的回调函数 */
     property var onInputTextEdited: null;                           /* 输入框编辑后的回调函数 */
     property var onInputEditingFinished: null;                      /* 输入按下返回键,回车键,失去焦点的回调函数 */
     property var onInputAccepted: null;                             /* 输入按下返回键,回车键的回调函数 */
@@ -91,6 +92,11 @@ Item {
         selectionColor: "#3399ff";
         selectedTextColor: "#ffffff";
         font.pixelSize: height * 0.55;
+        onFocusChanged: {   /* 当聚焦改变时 */
+            if ('function' === typeof(onInputFocusChanged)) {
+                onInputFocusChanged(focus);
+            }
+        }
         onTextEdited: { /* 当文本被编辑后触发 */
             if ('function' === typeof(onInputTextEdited)) {
                 onInputTextEdited();
