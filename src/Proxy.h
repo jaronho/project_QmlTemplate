@@ -44,8 +44,14 @@ signals:
     void sigInitOk(void);
 
 public slots:
+    /* 获取机器码 */
+    static QString getMachineCode(void);
+
     /* 日志记录 */
-    void onLogRecord(QString str);
+    static void log(const QString& str);
+
+    /* 错误记录 */
+    static void err(const QString& str);
 };
 
 #endif // _PROXY_H_
