@@ -5,17 +5,14 @@ Item {
     property color backgroundColorNormal: "#ebebeb";                /* 按钮常态时背景颜色 */
     property color backgroundColorHover: "#d9f0fc";                 /* 鼠标移到按钮上时背景颜色 */
     property color backgroundColorPress: "#c4e5f6";                 /* 鼠标按下时按钮背景颜色 */
+    property int borderWidth: 1;                                    /* 边框宽度 */
     property color borderColorNormal: "#707070";                    /* 按钮常态边框颜色 */
     property color borderColorHover: "#3c7fb1";                     /* 鼠标移到按钮上时边框颜色 */
     property color borderColorPress: "#2c5a8c";                     /* 鼠标按下时按钮边框颜色 */
-    property int borderWidth: 1;                                    /* 边框宽度 */
     property string imageSourceNormal: "";                          /* 按钮常态时图片资源 */
     property string imageSourceHover: "";                           /* 鼠标移到按钮上时图片资源 */
     property string imageSourcePress: "";                           /* 鼠标按下时按钮图片资源 */
-    property alias textColor: hint.color;                           /* 按钮文字颜色 */
-    property alias textOpacity: hint.opacity;                       /* 按钮文字透明度 */
-    property alias font: hint.font;                                 /* 按钮文字 */
-    property alias text: hint.text;                                 /* 按钮文字 */
+    property alias hint: hint;                                      /* 按钮文本 */
     property var onButtonEnter: null;                               /* 鼠标移到按钮上的回调函数 */
     property var onButtonExit: null;                                /* 鼠标离开按钮上的回调函数 */
     property var onButtonPress: null;                               /* 鼠标按下时的回调函数 */
@@ -72,6 +69,7 @@ Item {
         id: frame;
         anchors.fill: parent;
         color: self.getBackgroundColor();
+        border.width: borderWidth;
         border.color: self.getBorderColor();
         radius: 4;
     }
@@ -86,20 +84,11 @@ Item {
     /* 文本 */
     Text {
         id: hint;
-        anchors.left: parent.left;
-        anchors.leftMargin: frame.radius > 2 ? frame.radius - 1 : 1;
-        anchors.right: parent.right;
-        anchors.rightMargin: anchors.leftMargin;
-        anchors.top: parent.top;
-        anchors.topMargin: anchors.leftMargin;
-        anchors.bottom: parent.bottom;
-        anchors.bottomMargin: anchors.leftMargin;
-        horizontalAlignment: Text.AlignHCenter;
-        verticalAlignment: Text.AlignVCenter;
-        font.pixelSize: height * 0.7;
+        anchors.horizontalCenter: parent.horizontalCenter;
+        anchors.verticalCenter: parent.verticalCenter;
+        font.pixelSize: frame.height * 0.7;
         color: "#000000";
         opacity: 1;
-        text: "Button";
     }
 
     /* 鼠标事件 */
