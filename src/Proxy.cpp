@@ -72,7 +72,9 @@ float Proxy::getMemoryOccupy(void) {
 }
 
 float Proxy::getDiskOccupy(void) {
-    return 0;
+    disk_dev_st diskDev = devGetDisk("/");
+    float occupy = (float)(diskDev.total - diskDev.available) / diskDev.total;
+    return occupy * 100;
 }
 
 void Proxy::log(const QString& str) {
