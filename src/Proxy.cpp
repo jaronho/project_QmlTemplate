@@ -25,25 +25,46 @@ void Proxy::notifyInitOk(void) {
 }
 
 QString Proxy::getMachineCode(void) {
-    static std::string sMachineCode;
-    if (sMachineCode.empty()) {
-        /* 拼接所有网卡点MAC地址 */
-        std::string macs = "";
-        std::vector<network_dev_st> networkDevList = devGetNetwork();
-        for (size_t i = 0; i < networkDevList.size(); ++i) {
-            if (0 == strcmp("lo", networkDevList[i].name)) {
-                continue;
-            }
-            if (macs.length() > 0) {
-                macs += "|";
-            }
-            macs += networkDevList[i].mac;
+    /* 拼接所有网卡点MAC地址 */
+    std::string macs = "";
+    std::vector<network_dev_st> networkDevList = devGetNetwork();
+    for (size_t i = 0; i < networkDevList.size(); ++i) {
+        if (0 == strcmp("lo", networkDevList[i].name)) {
+            continue;
         }
-        /* 计算MD5值 */
-        QByteArray md5 = QCryptographicHash::hash(macs.c_str(), QCryptographicHash::Md5);
-        sMachineCode = md5.toHex().data();
+        if (macs.length() > 0) {
+            macs += "|";
+        }
+        macs += networkDevList[i].mac;
     }
-    return sMachineCode.c_str();
+    /* 计算MD5值 */
+    QByteArray md5 = QCryptographicHash::hash(macs.c_str(), QCryptographicHash::Md5);
+    return md5.toHex().data();
+}
+
+QString Proxy::getIPv4(void) {
+    std::vector<network_dev_st> networkDevList = devGetNetwork();
+    for (size_t i = 0; i < networkDevList.size(); ++i) {
+        if (0 == strcmp("lo", networkDevList[i].name)) {
+            continue;
+        }
+        return networkDevList[i].ipv4;
+    }
+    return "";
+}
+
+int Proxy::getCpuOccupy(void) {
+    return 0;
+}
+
+int Proxy::getMemoryOccupy(void) {
+    memory_dev_st memDev = devGetMemory();
+    float occupy = (float)(memDev.total - memDev.available) / memDev.total;
+    return (int)((occupy * 100) + 0.5);
+}
+
+int Proxy::getDiskOccupy(void) {
+    return 0;
 }
 
 void Proxy::log(const QString& str) {

@@ -47,6 +47,18 @@ public slots:
     /* 获取机器码 */
     static QString getMachineCode(void);
 
+    /* 获取IPv4地址 */
+    static QString getIPv4(void);
+
+    /* 获取CPU使用率 */
+    static int getCpuOccupy(void);
+
+    /* 获取内存使用率 */
+    static int getMemoryOccupy(void);
+
+    /* 获取磁盘使用率 */
+    static int getDiskOccupy(void);
+
     /* 日志记录 */
     static void log(const QString& str);
 

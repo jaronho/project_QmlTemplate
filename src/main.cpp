@@ -12,6 +12,7 @@ int main(int argc, char* argv[]) {
     logRecord("#############################  Starting  #############################");
     logRecord("######################################################################");
     logRecord("Machine Code: " + Proxy::getMachineCode().toStdString());
+    logRecord("IPv4 Address: " + Proxy::getIPv4().toStdString());
     /* step1:初始化模块*/
     Proxy::getInstance()->init();
     /* step2:初始化Qt程序*/
