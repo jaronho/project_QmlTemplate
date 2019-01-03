@@ -51,13 +51,13 @@ public slots:
     static QString getIPv4(void);
 
     /* 获取CPU使用率 */
-    static int getCpuOccupy(void);
+    static float getCpuOccupy(void);
 
     /* 获取内存使用率 */
-    static int getMemoryOccupy(void);
+    static float getMemoryOccupy(void);
 
     /* 获取磁盘使用率 */
-    static int getDiskOccupy(void);
+    static float getDiskOccupy(void);
 
     /* 日志记录 */
     static void log(const QString& str);
