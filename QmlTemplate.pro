@@ -16,7 +16,10 @@ unix {
             message("platform - unix(x86,64-bit)")
         }
         HEADERS += \
-            src/jhsdk/libusb/libusb.h
+            src/jhsdk/libusb/libusb.h \
+            src/jhsdk/libusb/UsbDevice.h
+        SOURCES += \
+            src/jhsdk/libusb/UsbDevice.cpp
         LIBS += $$PWD/src/jhsdk/libusb/platform-linux/libusb-1.0.so
         HEADERS += \
             src/jhsdk/libcurl/platform-linux/curl/curl.h \
@@ -80,7 +83,10 @@ win32 {
         message("platform - win32(x86,64-bit)")
     }
     HEADERS += \
-        src/jhsdk/libusb/libusb.h
+        src/jhsdk/libusb/libusb.h \
+        src/jhsdk/libusb/UsbDevice.h
+    SOURCES += \
+        src/jhsdk/libusb/UsbDevice.cpp
     LIBS += $$PWD/src/jhsdk/libusb/platform-win32/libusb-1.0.a
     HEADERS += \
         src/jhsdk/libcurl/platform-win32/curl/curl.h \
