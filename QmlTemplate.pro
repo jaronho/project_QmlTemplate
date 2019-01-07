@@ -16,6 +16,9 @@ unix {
             message("platform - unix(x86,64-bit)")
         }
         HEADERS += \
+            src/jhsdk/libusb/libusb.h
+        LIBS += $$PWD/src/jhsdk/libusb/platform-linux/libusb-1.0.so
+        HEADERS += \
             src/jhsdk/libcurl/platform-linux/curl/curl.h \
             src/jhsdk/libcurl/platform-linux/curl/curlver.h \
             src/jhsdk/libcurl/platform-linux/curl/easy.h \
@@ -76,6 +79,9 @@ win32 {
     } else {
         message("platform - win32(x86,64-bit)")
     }
+    HEADERS += \
+        src/jhsdk/libusb/libusb.h
+    LIBS += $$PWD/src/jhsdk/libusb/platform-win32/libusb-1.0.a
     HEADERS += \
         src/jhsdk/libcurl/platform-win32/curl/curl.h \
         src/jhsdk/libcurl/platform-win32/curl/curlbuild.h \
