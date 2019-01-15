@@ -120,6 +120,7 @@ static void httpNetworkThread() {
         } else if ("DELETE" == requestObj->requesttype) {
             requestObj->success = curlDelete(*requestObj, headerFunc, &(requestObj->responseheader), bodyFunc, &(requestObj->responsebody), &(requestObj->curlcode), &(requestObj->responsecode), &(requestObj->errorbuffer));
         } else {
+            delete requestObj;
             continue;
         }
         if (requestObj->syncresponse) {
@@ -168,11 +169,13 @@ void HttpClient::receive(void) {
 void HttpClient::get(const std::string& url,
                      const std::vector<std::string>* headers /*= NULL*/,
                      HTTP_REQUEST_CALLBACK callback /*= 0*/,
-                     const std::string& param /*= ""*/,
+                     void* param /*= NULL*/,
+                     int connecttimeout /*= 30*/,
+                     int timeout /*= 60*/,
                      bool syncresponse /*= true*/) {
     HttpObject* obj = new HttpObject();
-    obj->connecttimeout = 30;
-    obj->timeout = 60;
+    obj->connecttimeout = connecttimeout;
+    obj->timeout = timeout;
     obj->url = url;
     if (headers) {
         for (size_t i = 0; i < headers->size(); ++i) {
@@ -190,11 +193,13 @@ void HttpClient::post(const std::string& url,
                       const std::vector<std::string>* headers,
                       const char* data,
                       HTTP_REQUEST_CALLBACK callback /*= 0*/,
-                      const std::string& param /*= ""*/,
+                      void* param /*= NULL*/,
+                      int connecttimeout /*= 30*/,
+                      int timeout /*= 60*/,
                       bool syncresponse /*= true*/) {
     HttpObject* obj = new HttpObject();
-    obj->connecttimeout = 30;
-    obj->timeout = 60;
+    obj->connecttimeout = connecttimeout;
+    obj->timeout = timeout;
     obj->url = url;
     if (headers) {
         for (size_t i = 0; i < headers->size(); ++i) {
@@ -214,11 +219,13 @@ void HttpClient::postForm(const std::string& url,
                           const std::map<std::string, std::string>* contents /*= NULL*/,
                           const std::map<std::string, std::string>* files /*= NULL*/,
                           HTTP_REQUEST_CALLBACK callback /*= 0*/,
-                          const std::string& param /*= ""*/,
+                          void* param /*= NULL*/,
+                          int connecttimeout /*= 30*/,
+                          int timeout /*= 60*/,
                           bool syncresponse /*= true*/) {
     HttpObject* obj = new HttpObject();
-    obj->connecttimeout = 30;
-    obj->timeout = 60;
+    obj->connecttimeout = connecttimeout;
+    obj->timeout = timeout;
     obj->url = url;
     if (headers) {
         for (size_t i = 0; i < headers->size(); ++i) {
