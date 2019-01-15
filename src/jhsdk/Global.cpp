@@ -83,6 +83,15 @@ memory_dev_st devGetMemory(void) {
     return memDev;
 }
 
+double devGetMemoryOccupy(void) {
+    memory_dev_st memDev = devGetMemory();
+    if (memDev.total <= 0) {
+        return 0;
+    }
+    double occupy = (double)(memDev.total - memDev.available) / memDev.total;
+    return occupy * 100;
+}
+
 cpu_dev_st devGetCPU(void) {
     cpu_dev_st cpuDev;
 #ifdef __linux
@@ -99,6 +108,21 @@ cpu_dev_st devGetCPU(void) {
     return cpuDev;
 }
 
+double devGetCpuOccupy(void) {
+    cpu_dev_st cpuDev1 = devGetCPU();
+    sleep(1);
+    cpu_dev_st cpuDev2 = devGetCPU();
+    unsigned long t1 = cpuDev1.user + cpuDev1.nice + cpuDev1.system + cpuDev1.idle + cpuDev1.iowait + cpuDev1.irq + cpuDev1.softirq;
+    unsigned long t2 = cpuDev2.user + cpuDev2.nice + cpuDev2.system + cpuDev2.idle + cpuDev2.iowait + cpuDev2.irq + cpuDev2.softirq;
+    unsigned long total = t2 - t1;
+    if (total <= 0) {
+        return 0;
+    }
+    unsigned long idle = cpuDev2.idle - cpuDev1.idle;
+    double occupy = (double)(total - idle) / total;
+    return occupy * 100;
+}
+
 disk_dev_st devGetDisk(const char* path) {
     disk_dev_st diskDev;
 #ifdef __linux
@@ -109,6 +133,15 @@ disk_dev_st devGetDisk(const char* path) {
     diskDev.available = info.f_bavail * info.f_bsize;
 #endif
     return diskDev;
+}
+
+double devGetDiskOccupy(void) {
+    disk_dev_st diskDev = devGetDisk("/");
+    if (diskDev.total <= 0) {
+        return 0;
+    }
+    double occupy = (double)(diskDev.total - diskDev.available) / diskDev.total;
+    return occupy * 100;
 }
 
 #ifdef GLOBAL_MODULE_COMMON
@@ -304,6 +337,10 @@ void errRecord(const std::string& str) {
 /*********************************************************************
 *************************** HTTP CLIENT 接口 *************************
 **********************************************************************/
+void httpReceive(void) {
+    HttpClient::getInstance()->receive();
+}
+
 void httpGet(const std::string& url, const std::vector<std::string>* headers, HTTP_REQUEST_CALLBACK callback, const std::string& param) {
     HttpClient::getInstance()->get(url, headers, callback, param);
 }

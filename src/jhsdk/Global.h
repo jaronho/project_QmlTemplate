@@ -60,11 +60,20 @@ extern std::vector<network_dev_st> devGetNetwork(void);
 /* 获取内存情况 */
 extern memory_dev_st devGetMemory(void);
 
+/* 获取内存使用率 */
+extern double devGetMemoryOccupy(void);
+
 /* 获取CPU情况 */
 extern cpu_dev_st devGetCPU(void);
 
+/* 获取CPU使用率 */
+extern double devGetCpuOccupy(void);
+
 /* 获取磁盘情况 */
 extern disk_dev_st devGetDisk(const char* path);
+
+/* 获取磁盘使用率 */
+extern double devGetDiskOccupy(void);
 
 #ifdef GLOBAL_MODULE_COMMON
 /*********************************************************************
@@ -152,6 +161,9 @@ extern void errRecord(const std::string& str);
 *************************** HTTP CLIENT 接口 *************************
 **********************************************************************/
 #include "httpclient/HttpClient.h"
+
+/* http接收(循环调用) */
+extern void httpReceive(void);
 
 /* http请求GET */
 extern void httpGet(const std::string& url, const std::vector<std::string>* headers, HTTP_REQUEST_CALLBACK callback, const std::string& param);
