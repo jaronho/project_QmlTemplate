@@ -155,6 +155,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 HEADERS += \
+    src/jhsdk/baseConvert/BaseConvert.h \
     src/jhsdk/common/Common.h \
     src/jhsdk/httpclient/HttpClient.h \
     src/jhsdk/httpserver/HttpServer.h \
@@ -173,6 +174,7 @@ HEADERS += \
     src/Proxy.h
 
 SOURCES += \
+    src/jhsdk/baseConvert/BaseConvert.cpp \
     src/jhsdk/common/Common.cpp \
     src/jhsdk/httpclient/HttpClient.cpp \
     src/jhsdk/httpserver/HttpServer.cpp \
