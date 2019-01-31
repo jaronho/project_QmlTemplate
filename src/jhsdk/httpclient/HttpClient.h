@@ -57,14 +57,14 @@ public:
     void send(HttpObject* obj);                                                                 // 发送http请求
     void receive(void);                                                                         // 每帧循环接收(用于异步响应)
     void get(const std::string& url,
-             const std::vector<std::string>* headers = NULL,
+             const std::map<std::string, std::string>* headers = NULL,
              HTTP_REQUEST_CALLBACK callback = NULL,
              void* param = NULL,
              int connecttimeout = 30,
              int timeout = 60,
              bool syncresponse = true);                                                         // GET请求
     void post(const std::string& url,
-              const std::vector<std::string>* headers,
+              const std::map<std::string, std::string>* headers,
               const unsigned char* data,
               unsigned int dataLength,
               HTTP_REQUEST_CALLBACK callback = NULL,
@@ -73,7 +73,7 @@ public:
               int timeout = 60,
               bool syncresponse = true);                                                        // POST请求
     void postForm(const std::string& url,
-                  const std::vector<std::string>* headers = NULL,
+                  const std::map<std::string, std::string>* headers = NULL,
                   const std::map<std::string, std::string>* contents = NULL,
                   const std::map<std::string, std::string>* filenames = NULL,
                   HTTP_REQUEST_CALLBACK callback = NULL,
