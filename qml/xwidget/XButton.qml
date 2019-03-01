@@ -18,6 +18,10 @@ Item {
     property var onButtonPress: null;                               /* 鼠标按下时的回调函数 */
     property var onButtonRelease: null;                             /* 鼠标释放时的回调函数 */
     property var onButtonClick: null;                               /* 鼠标点击时的回调函数 */
+    property int mouseLeftMargin: 0;                                /* 鼠标触发左边距 */
+    property int mouseTopMargin: 0;                                 /* 鼠标触发上边距 */
+    property int mouseRightMargin: 0;                               /* 鼠标触发右边距 */
+    property int mouseBottomMargin: 0;                              /* 鼠标触发下边距 */
 
     width: 50;
     height: 20;
@@ -93,8 +97,16 @@ Item {
 
     /* 鼠标事件 */
     MouseArea {
-        anchors.fill: parent;
+        anchors.left: parent.left;
+        anchors.leftMargin: mouseLeftMargin;
+        anchors.top: parent.top;
+        anchors.topMargin: mouseTopMargin;
+        anchors.right: parent.right;
+        anchors.rightMargin: mouseRightMargin;
+        anchors.bottom: parent.bottom;
+        anchors.bottomMargin: mouseBottomMargin;
         hoverEnabled: true;
+        enabled: parent.enabled;
         onEntered: {
             self.isMouseHover = true;
             if ('function' === typeof(onButtonEnter)) {
