@@ -9,6 +9,7 @@ Item {
     property alias hintColor: hint.color;                           /* 提示文本颜色 */
     property alias hintOpacity: hint.opacity;                       /* 提示文本透明度 */
     property alias hintText: hint.text;                             /* 提示文本 */
+    property alias inputFocus: input.focus;                         /* 是否聚焦 */
     property alias inputReadOnly: input.readOnly;                   /* 是否只读 */
     property alias inputSelectByMouse: input.selectByMouse;         /* 是否可以选中 */
     property alias inputTextColor: input.color;                     /* 输入文本颜色 */
