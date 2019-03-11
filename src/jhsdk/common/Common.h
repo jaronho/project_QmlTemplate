@@ -347,9 +347,14 @@ public:
      * Brief:	copy src file to dest file
      * Param:	srcFilePath - src file, can be absolute path (d:/test.txt) or relative path (temp/test.txt)
      *          destFilePath - dest file, can be absolute path (d:/test.txt) or relative path (temp/test.txt)
-     * Return:	bool
+     * Return:	0 - ok
+     *          1 - srcFilePath is NULL or empty
+     *          2 - destFilePath is NULL or empty
+     *          3 - srcFilePath equal destFilePath
+     *          4 - can not open srcFilePath
+     *          5 - can not open destFilePath
      */
-    static bool copyFile(const std::string& srcFilePath, const std::string& destFilePath);
+    static int copyFile(const char* srcFilePath, const char* destFilePath);
 
     /*
      * Brief:	revisal path, replace "\\" to "/", make sure end of path is not "/" and "\\"
@@ -520,9 +525,10 @@ public:
     /*
      * Brief:   execute shell command
      * Param:   cmd - command, e.g. "ls" or "dir"
+     *          sleepMillisecondWhenOk - sleep millisecond when command execute ok
      * Return:  std::vector<std::string>
      */
-    static std::vector<std::string> shellCmd(const std::string& cmd);
+    static std::vector<std::string> shellCmd(const std::string& cmd, unsigned int sleepMillisecondWhenOk = 0);
 
     /*
      * Brief:	get size of array, e.g.
