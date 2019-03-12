@@ -38,5 +38,19 @@ Item {
             id: layer_tips;
             anchors.fill: parent;
         }
+
+        /* 监听鼠标事件 */
+        MouseArea {
+            id: mouse_listener;
+            anchors.fill: parent;
+            propagateComposedEvents: true;
+            onClicked: {
+                mouse.accepted = false;
+                if ('function' === typeof(clickedCallabck)) {
+                    clickedCallabck();
+                }
+            }
+            property var clickedCallabck: null;
+        }
     }
 }
