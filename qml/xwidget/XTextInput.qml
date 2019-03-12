@@ -26,6 +26,7 @@ Item {
     property var onInputTextEdited: null;                           /* 输入框编辑后的回调函数 */
     property var onInputEditingFinished: null;                      /* 输入按下返回键,回车键,失去焦点的回调函数 */
     property var onInputAccepted: null;                             /* 输入按下返回键,回车键的回调函数 */
+    property var onInputPressed: null;                              /* 鼠标左键按下回调函数 */
 
     width: 100;
     height: 20;
@@ -112,6 +113,16 @@ Item {
             focus = false;
             if ('function' === typeof(onInputAccepted)) {
                 onInputAccepted();
+            }
+        }
+        MouseArea {
+            anchors.fill: parent;
+            propagateComposedEvents: true;
+            onPressed: {    /* 当鼠标左键被按下时触发 */
+                mouse.accepted = false;
+                if ('function' === typeof(onInputPressed)) {
+                    onInputPressed();
+                }
             }
         }
     }
