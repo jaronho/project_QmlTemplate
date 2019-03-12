@@ -1,5 +1,6 @@
 import QtQuick 2.9
 import QtQuick.Window 2.2
+import QtQuick.VirtualKeyboard 2.2
 import "ui"
 
 Item {
@@ -39,18 +40,38 @@ Item {
             anchors.fill: parent;
         }
 
-        /* 监听鼠标事件 */
+        /* 虚拟键盘 */
+        InputPanel {
+            id: virtualKeyboard;
+            visible: false;
+            anchors.right: parent.right;
+            anchors.left: parent.left;
+            anchors.bottom: parent.bottom;
+            onActiveChanged: {
+                if (!active) {
+                    visible = false;
+                }
+            }
+            onVisibleChanged: {
+                if ('function' === typeof(visibleCallback)) {
+                    visibleCallback();
+                }
+            }
+            property var visibleCallback: null;
+        }
+
+        /* 监听鼠标按下事件 */
         MouseArea {
             id: mouse_listener;
             anchors.fill: parent;
             propagateComposedEvents: true;
-            onClicked: {
+            onPressed: {
                 mouse.accepted = false;
-                if ('function' === typeof(clickedCallabck)) {
-                    clickedCallabck();
+                if ('function' === typeof(pressedCallabck)) {
+                    pressedCallabck();
                 }
             }
-            property var clickedCallabck: null;
+            property var pressedCallabck: null;
         }
     }
 }
