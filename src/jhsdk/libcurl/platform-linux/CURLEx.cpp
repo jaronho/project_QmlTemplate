@@ -10,17 +10,28 @@
 */
 unsigned int CURLEx::sObjCount = 0;
 //------------------------------------------------------------------------
-CURLEx::CURLEx(void) {
+CURLEx::CURLEx(const std::string& sslCaFilename) {
     if (0 == sObjCount) {
-        curl_global_init(CURL_GLOBAL_ALL);
+        if (CURLE_OK != curl_global_init(CURL_GLOBAL_ALL)) {
+            perror("curl_global_init failed!");
+            return;
+        }
     }
     ++sObjCount;
-    memset(mErrorBuffer, 0, CURL_ERROR_SIZE);
     mCurl = curl_easy_init();
-    curl_easy_setopt(mCurl, CURLOPT_FORBID_REUSE, 1L);
+    if (!mCurl) {
+        perror("curl_easy_init failed!");
+        return;
+    }
     mHeaders = NULL;
     mHttpPost = NULL;
     mLastPost = NULL;
+    if (!initialize(sslCaFilename)) {
+        curl_easy_cleanup(mCurl);
+        mCurl = NULL;
+        perror("curl initialize failed!");
+        return;
+    }
 }
 //------------------------------------------------------------------------
 CURLEx::~CURLEx(void) {
@@ -69,6 +80,10 @@ bool CURLEx::initialize(const std::string& sslCaFilename) {
     return CURLE_OK == setOption(CURLOPT_NOSIGNAL, 1L);
 }
 //------------------------------------------------------------------------
+bool CURLEx::isValid(void) {
+    return mCurl ? true : false;
+}
+//------------------------------------------------------------------------
 bool CURLEx::setCookieFile(const std::string& cookieFilename) {
     if (!cookieFilename.empty()) {
         if (CURLE_OK != setOption(CURLOPT_COOKIEFILE, cookieFilename.c_str())) {
@@ -93,7 +108,7 @@ bool CURLEx::setURL(const std::string& url) {
     if (url.empty()) {
         return false;
     }
-    // the second parameter must use type: const char*
+    /* the second parameter must use type: const char* */
     return CURLE_OK == setOption(CURLOPT_URL, url.c_str());
 }
 //------------------------------------------------------------------------
@@ -101,13 +116,13 @@ bool CURLEx::setHeaders(const std::map<std::string, std::string>& headers) {
     if (headers.empty()) {
         return false;
     }
-    // append custom headers one by one
+    /* append custom headers one by one */
     std::map<std::string, std::string>::const_iterator iter = headers.begin();
     for (; headers.end() != iter; ++iter) {
-        // the second parameter must use type: const char*
+        /* the second parameter must use type: const char* */
         mHeaders = curl_slist_append(mHeaders, (iter->first + ":" + iter->second).c_str());
     }
-    // set custom headers for curl
+    /* set custom headers for curl */
     return CURLE_OK == setOption(CURLOPT_HTTPHEADER, mHeaders);
 }
 //------------------------------------------------------------------------
@@ -217,11 +232,15 @@ bool CURLEx::perform(int* curlCode, int* responseCode, std::string* errorBuffer)
     return CURLE_OK == code;
 }
 //------------------------------------------------------------------------
-bool curlReuqestConfigure(CURLEx* pCurl, const CurlRequest& request, CURLEx_callback headerFunc, void* headerStream, CURLEx_callback bodyFunc, void* bodyStream) {
-    if (!pCurl || request.url.empty() || !headerFunc || !headerStream || !bodyFunc || !bodyStream) {
-        return false;
-    }
-    if (!pCurl->initialize(request.sslcafilename)) {
+static unsigned int headerFunc(void* ptr, unsigned int size, unsigned int nmemb, void* stream) {
+    std::vector<char>* recvBuffer = (std::vector<char>*)stream;
+    unsigned int sizes = size * nmemb;
+    recvBuffer->insert(recvBuffer->end(), (char*)ptr, (char*)ptr + sizes);
+    return sizes;
+}
+//------------------------------------------------------------------------
+static bool curlReuqestConfigure(CURLEx* pCurl, const CurlRequest& request, std::vector<char>* headerStream, CURLEx_callback bodyFunc, void* bodyStream, CURLEx_progress progressFunc, void* progressStream) {
+    if (!pCurl || request.url.empty()) {
         return false;
     }
     if (!pCurl->setCookieFile(request.cookiefilename)) {
@@ -233,21 +252,21 @@ bool curlReuqestConfigure(CURLEx* pCurl, const CurlRequest& request, CURLEx_call
         return false;
     }
     pCurl->setHeaders(request.headers);
-    if (!pCurl->setHeaderFunction(headerFunc, headerStream)) {
+    if (headerStream && !pCurl->setHeaderFunction(headerFunc, headerStream)) {
         return false;
     }
-    if (!pCurl->setWriteFunction(bodyFunc, bodyStream)) {
+    if (bodyFunc && bodyStream && !pCurl->setWriteFunction(bodyFunc, bodyStream)) {
+        return false;
+    }
+    if (progressFunc && progressStream && !pCurl->setProgressFunction(progressFunc, progressStream)) {
         return false;
     }
     return true;
 }
 //------------------------------------------------------------------------
-bool curlGet(CurlRequest& request, CURLEx_callback headerFunc, void* headerStream, CURLEx_callback bodyFunc, void* bodyStream, int* curlCode, int* responseCode, std::string* errorBuffer) {
+bool curlGet(CurlRequest& request, std::vector<char>* headerStream, CURLEx_callback bodyFunc, void* bodyStream, CURLEx_progress progressFunc, void* progressStream, int* curlCode, int* responseCode, std::string* errorBuffer) {
     CURLEx curlObj;
-    if (!curlReuqestConfigure(&curlObj, request, headerFunc, headerStream, bodyFunc, bodyStream)) {
-        return false;
-    }
-    if (CURLE_OK != curlObj.setOption(CURLOPT_FOLLOWLOCATION, 1)) {
+    if (!curlReuqestConfigure(&curlObj, request, headerStream, bodyFunc, bodyStream, progressFunc, progressStream)) {
         return false;
     }
     if (CURLE_OK != curlObj.setOption(CURLOPT_POST, 0)) {
@@ -256,12 +275,9 @@ bool curlGet(CurlRequest& request, CURLEx_callback headerFunc, void* headerStrea
     return curlObj.perform(curlCode, responseCode, errorBuffer);
 }
 //------------------------------------------------------------------------
-bool curlPost(CurlRequest& request, CURLEx_callback headerFunc, void* headerStream, CURLEx_callback bodyFunc, void* bodyStream, int* curlCode, int* responseCode, std::string* errorBuffer) {
+bool curlPost(CurlRequest& request, std::vector<char>* headerStream, CURLEx_callback bodyFunc, void* bodyStream, CURLEx_progress progressFunc, void* progressStream, int* curlCode, int* responseCode, std::string* errorBuffer) {
     CURLEx curlObj;
-    if (!curlReuqestConfigure(&curlObj, request, headerFunc, headerStream, bodyFunc, bodyStream)) {
-        return false;
-    }
-    if (CURLE_OK != curlObj.setOption(CURLOPT_FOLLOWLOCATION, 1)) {
+    if (!curlReuqestConfigure(&curlObj, request, headerStream, bodyFunc, bodyStream, progressFunc, progressStream)) {
         return false;
     }
     if (CURLE_OK != curlObj.setOption(CURLOPT_POST, 1)) {
@@ -271,12 +287,9 @@ bool curlPost(CurlRequest& request, CURLEx_callback headerFunc, void* headerStre
     return curlObj.perform(curlCode, responseCode, errorBuffer);
 }
 //------------------------------------------------------------------------
-bool curlPostForm(CurlRequest& request, CURLEx_callback headerFunc, void* headerStream, CURLEx_callback bodyFunc, void* bodyStream, int* curlCode, int* responseCode, std::string* errorBuffer) {
+bool curlPostForm(CurlRequest& request, std::vector<char>* headerStream, CURLEx_callback bodyFunc, void* bodyStream, CURLEx_progress progressFunc, void* progressStream, int* curlCode, int* responseCode, std::string* errorBuffer) {
     CURLEx curlObj;
-    if (!curlReuqestConfigure(&curlObj, request, headerFunc, headerStream, bodyFunc, bodyStream)) {
-        return false;
-    }
-    if (CURLE_OK != curlObj.setOption(CURLOPT_FOLLOWLOCATION, 1)) {
+    if (!curlReuqestConfigure(&curlObj, request, headerStream, bodyFunc, bodyStream, progressFunc, progressStream)) {
         return false;
     }
     if (CURLE_OK != curlObj.setOption(CURLOPT_POST, 1)) {
@@ -302,12 +315,9 @@ bool curlPostForm(CurlRequest& request, CURLEx_callback headerFunc, void* header
     return curlObj.perform(curlCode, responseCode, errorBuffer);
 }
 //------------------------------------------------------------------------
-bool curlPut(CurlRequest& request, CURLEx_callback headerFunc, void* headerStream, CURLEx_callback bodyFunc, void* bodyStream, int* curlCode, int* responseCode, std::string* errorBuffer) {
+bool curlPut(CurlRequest& request, std::vector<char>* headerStream, CURLEx_callback bodyFunc, void* bodyStream, CURLEx_progress progressFunc, void* progressStream, int* curlCode, int* responseCode, std::string* errorBuffer) {
     CURLEx curlObj;
-    if (!curlReuqestConfigure(&curlObj, request, headerFunc, headerStream, bodyFunc, bodyStream)) {
-        return false;
-    }
-    if (CURLE_OK != curlObj.setOption(CURLOPT_FOLLOWLOCATION, 1)) {
+    if (!curlReuqestConfigure(&curlObj, request, headerStream, bodyFunc, bodyStream, progressFunc, progressStream)) {
         return false;
     }
     if (CURLE_OK != curlObj.setOption(CURLOPT_CUSTOMREQUEST, "PUT")) {
@@ -317,12 +327,9 @@ bool curlPut(CurlRequest& request, CURLEx_callback headerFunc, void* headerStrea
     return curlObj.perform(curlCode, responseCode, errorBuffer);
 }
 //------------------------------------------------------------------------
-bool curlDelete(CurlRequest& request, CURLEx_callback headerFunc, void* headerStream, CURLEx_callback bodyFunc, void* bodyStream, int* curlCode, int* responseCode, std::string* errorBuffer) {
+bool curlDelete(CurlRequest& request, std::vector<char>* headerStream, CURLEx_callback bodyFunc, void* bodyStream, CURLEx_progress progressFunc, void* progressStream, int* curlCode, int* responseCode, std::string* errorBuffer) {
     CURLEx curlObj;
-    if (!curlReuqestConfigure(&curlObj, request, headerFunc, headerStream, bodyFunc, bodyStream)) {
-        return false;
-    }
-    if (CURLE_OK != curlObj.setOption(CURLOPT_FOLLOWLOCATION, 1)) {
+    if (!curlReuqestConfigure(&curlObj, request, headerStream, bodyFunc, bodyStream, progressFunc, progressStream)) {
         return false;
     }
     if (CURLE_OK != curlObj.setOption(CURLOPT_CUSTOMREQUEST, "DELETE")) {
