@@ -1,4 +1,6 @@
+#include <iostream>
 #include <QApplication>
+#include <QMutex>
 #include <QQmlContext>
 #include <QQuickItem>
 #include <QQuickWidget>
@@ -6,15 +8,37 @@
 #include "XResizeWindow.h"
 #include "Proxy.h"
 
+/* 输出日志信息 */
+static void outputMessage(QtMsgType type, const QMessageLogContext& context, const QString& msg) {
+    QDateTime dt = QDateTime::currentDateTime();
+    QString message = QString("[%1] %2").arg(dt.toString("yyyy-MM-dd hh:mm:ss")).arg(msg);
+    std::cout << message.toStdString() << std::endl;
+    /* 日志文件名 */
+    char filename[16] = { 0 };
+    sprintf(filename, "%04d%02d%02d.log", dt.date().year(), dt.date().month(), dt.date().day());
+    /* 写日志 */
+    static QMutex sMutex;
+    sMutex.lock();
+    QString fullFilePath = QCoreApplication::applicationDirPath() + "/" + filename; /* 日志全路径 */
+    QFile file(fullFilePath);
+    file.open(QIODevice::WriteOnly | QIODevice::Append);
+    QTextStream fileStream(&file);
+    fileStream << message << "\r\n";
+    file.flush();
+    file.close();
+    sMutex.unlock();
+}
+
 int main(int argc, char* argv[]) {
-    initAppDirectory(argv[0]);
-    logRecord("######################################################################");
-    logRecord("#############################  Starting  #############################");
-    logRecord("######################################################################");
-    logRecord("Machine Code: " + Proxy::getMachineCode().toStdString());
-    logRecord("IPv4 Address: " + Proxy::getIPv4().toStdString());
+    // initAppDirectory(argv[0]);
+    // logRecord("######################################################################");
+    // logRecord("#############################  Starting  #############################");
+    // logRecord("######################################################################");
+    // logRecord("Machine Code: " + Proxy::getMachineCode().toStdString());
+    // logRecord("IPv4 Address: " + Proxy::getIPv4().toStdString());
     /* step1:初始化Qt程序*/
     // qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));   /* 集成虚拟键盘 */
+    qInstallMessageHandler(outputMessage);
 #if defined(Q_OS_WIN)
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif

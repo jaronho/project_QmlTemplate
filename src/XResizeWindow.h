@@ -3,8 +3,8 @@
 
 #include <QQuickView>
 
-class XResizeWindow{
-private:
+class XResizeWindow {
+public:
     class XQuickView : public QQuickView {
     public:
         XQuickView(QWindow* parent = nullptr);
@@ -25,6 +25,7 @@ public:
     ~XResizeWindow(void);
 
 public:
+    XQuickView* getView(void);
     void setFlags(Qt::WindowFlags flags);
     void setFlag(Qt::WindowType flag, bool on = true);
     void setContextProperty(const QString& name, QObject* value);

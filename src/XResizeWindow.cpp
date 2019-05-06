@@ -61,6 +61,10 @@ XResizeWindow::~XResizeWindow(void) {
     delete mView;
 }
 
+XResizeWindow::XQuickView* XResizeWindow::getView(void) {
+    return mView;
+}
+
 void XResizeWindow::setFlags(Qt::WindowFlags flags) {
     mView->setFlags(flags);
 }
