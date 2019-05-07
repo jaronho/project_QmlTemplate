@@ -9,6 +9,33 @@
 #include <QDebug>
 #include "jhsdk/Global.h"
 
+bool Proxy::callQml(QString objectName, QString methodName, QVariant* retValue,
+                    QVariant val0, QVariant val1,
+                    QVariant val2, QVariant val3,
+                    QVariant val4, QVariant val5,
+                    QVariant val6, QVariant val7,
+                    QVariant val8, QVariant val9) {
+    if (QGuiApplication::allWindows().isEmpty()) {
+        return false;
+    }
+    QObject* obj = QGuiApplication::allWindows()[0]->findChild<QObject*>(objectName, Qt::FindChildrenRecursively);
+    if (!obj) {
+        return false;
+    }
+    return QMetaObject::invokeMethod(obj, methodName.toUtf8(), Qt::AutoConnection,
+                                     retValue ? Q_RETURN_ARG(QVariant, *retValue) : QGenericReturnArgument(),
+                                     val0.isValid() ? Q_ARG(QVariant, val0) : QGenericArgument(),
+                                     val1.isValid() ? Q_ARG(QVariant, val1) : QGenericArgument(),
+                                     val2.isValid() ? Q_ARG(QVariant, val2) : QGenericArgument(),
+                                     val3.isValid() ? Q_ARG(QVariant, val3) : QGenericArgument(),
+                                     val4.isValid() ? Q_ARG(QVariant, val4) : QGenericArgument(),
+                                     val5.isValid() ? Q_ARG(QVariant, val5) : QGenericArgument(),
+                                     val6.isValid() ? Q_ARG(QVariant, val6) : QGenericArgument(),
+                                     val7.isValid() ? Q_ARG(QVariant, val7) : QGenericArgument(),
+                                     val8.isValid() ? Q_ARG(QVariant, val8) : QGenericArgument(),
+                                     val9.isValid() ? Q_ARG(QVariant, val9) : QGenericArgument());
+}
+
 Proxy* Proxy::getInstance(void) {
     static Proxy* instance = nullptr;
     if (nullptr == instance) {
