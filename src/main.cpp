@@ -18,14 +18,21 @@ static void outputMessage(QtMsgType type, const QMessageLogContext& context, con
     sprintf(filename, "%04d%02d%02d.log", dt.date().year(), dt.date().month(), dt.date().day());
     /* 写日志 */
     static QMutex sMutex;
+    static QFile sFile;
     sMutex.lock();
     QString fullFilePath = QCoreApplication::applicationDirPath() + "/" + filename; /* 日志全路径 */
-    QFile file(fullFilePath);
-    file.open(QIODevice::WriteOnly | QIODevice::Append);
-    QTextStream fileStream(&file);
-    fileStream << message << "\r\n";
-    file.flush();
-    file.close();
+    if (sFile.fileName() != fullFilePath) {
+        if (sFile.isOpen()) {
+            sFile.close();
+        }
+        sFile.setFileName(fullFilePath);
+        sFile.open(QIODevice::WriteOnly | QIODevice::Append);
+    }
+    if (sFile.isOpen()) {
+        QTextStream fileStream(&sFile);
+        fileStream << message << "\r\n";
+        sFile.flush();
+    }
     sMutex.unlock();
 }
 
