@@ -170,7 +170,7 @@ HEADERS += \
     src/jhsdk/timer/TimerManager.h \
     src/jhsdk/xmlhelper/XmlHelper.h \
     src/jhsdk/Global.h \
-    src/XResizeWindow.h \
+    src/XWindow.h \
     src/Proxy.h
 
 SOURCES += \
@@ -188,7 +188,7 @@ SOURCES += \
     src/jhsdk/timer/TimerManager.cpp \
     src/jhsdk/xmlhelper/XmlHelper.cpp \
     src/jhsdk/Global.cpp \
-    src/XResizeWindow.cpp \
+    src/XWindow.cpp \
     src/Proxy.cpp \
     src/main.cpp
 

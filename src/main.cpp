@@ -5,7 +5,7 @@
 #include <QQuickItem>
 #include <QQuickWidget>
 #include "jhsdk/Global.h"
-#include "XResizeWindow.h"
+#include "XWindow.h"
 #include "Proxy.h"
 
 /* 输出日志信息 */
@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
     /* step2:初始化模块*/
     Proxy::getInstance()->init();
     /* step3:初始化Qt窗口 */
-    XResizeWindow window(QSize(640, 480), QSize(320, 240), QSize(800, 600), false);
+    XWindow window(QSize(640, 480), QSize(320, 240), QSize(800, 600), false);
     window.setFlag(Qt::Window, true);
     // window.setFlag(Qt::FramelessWindowHint, true);
     window.setContextProperty("app_directory", getAppDirectory().c_str());

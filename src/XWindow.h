@@ -1,9 +1,9 @@
-#ifndef XRESIZEWINDOW_H
-#define XRESIZEWINDOW_H
+#ifndef XWINDOW_H
+#define XWINDOW_H
 
 #include <QQuickView>
 
-class XResizeWindow {
+class XWindow {
 public:
     class XQuickView : public QQuickView {
     public:
@@ -21,8 +21,8 @@ public:
     };
 
 public:
-    XResizeWindow(const QSize& size, const QSize& minimumSize = QSize(-1, -1), const QSize& maximumSize = QSize(-1, -1), bool draggable = true);
-    ~XResizeWindow(void);
+    XWindow(const QSize& size = QSize(-1, -1), const QSize& minimumSize = QSize(-1, -1), const QSize& maximumSize = QSize(-1, -1), bool draggable = false);
+    ~XWindow(void);
 
 public:
     XQuickView* getView(void);
@@ -45,4 +45,4 @@ private:
     XQuickView* mView;
 };
 
-#endif // XRESIZEWINDOW_H
+#endif // XWINDOW_H
