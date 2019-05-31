@@ -41,19 +41,17 @@ XWindow::XWindow(const QSize& size, const QSize& minimumSize, const QSize& maxim
     mView = new XQuickView();
     mView->setColor(QColor(Qt::transparent));
     if (size.width() > 0 && size.height() > 0) {
-        mView->setWidth(size.width());
-        mView->setHeight(size.height());
+        mView->setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
+        mView->resize(size);
     }
-    int minimumWidth = size.width(), minimumHeight = size.height();
     if (minimumSize.width() > 0 && minimumSize.height() > 0) {
-        minimumWidth = minimumSize.width() < size.width() ? minimumSize.width() : size.width();
-        minimumHeight = minimumSize.height() < size.height() ? minimumSize.height() : size.height();
+        int minimumWidth = minimumSize.width() < size.width() ? minimumSize.width() : size.width();
+        int minimumHeight = minimumSize.height() < size.height() ? minimumSize.height() : size.height();
         mView->setMinimumSize(QSize(minimumWidth, minimumHeight));
     }
-    int maximumWidth = size.width(), maximumHeight = size.height();
     if (maximumSize.width() > 0 && maximumSize.height() > 0) {
-        maximumWidth = maximumSize.width() > size.width() ? maximumSize.width() : size.width();
-        maximumHeight = maximumSize.height() > size.height() ? maximumSize.height() : size.height();
+        int maximumWidth = maximumSize.width() > size.width() ? maximumSize.width() : size.width();
+        int maximumHeight = maximumSize.height() > size.height() ? maximumSize.height() : size.height();
         mView->setMaximumSize(QSize(maximumWidth, maximumHeight));
     }
     mView->setDraggable(draggable);
