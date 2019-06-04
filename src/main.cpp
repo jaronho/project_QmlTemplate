@@ -31,7 +31,7 @@ static void outputMessage(QtMsgType type, const QMessageLogContext& context, con
     if (sFile.isOpen()) {
         QTextStream fileStream(&sFile);
         fileStream.setCodec("UTF-8");
-        fileStream << message << "\r\n";
+        fileStream << message << "\n";
         sFile.flush();
     }
     sMutex.unlock();
