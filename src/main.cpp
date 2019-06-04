@@ -26,10 +26,11 @@ static void outputMessage(QtMsgType type, const QMessageLogContext& context, con
             sFile.close();
         }
         sFile.setFileName(fullFilePath);
-        sFile.open(QIODevice::WriteOnly | QIODevice::Append);
+        sFile.open(QIODevice::Text | QIODevice::WriteOnly | QIODevice::Append);
     }
     if (sFile.isOpen()) {
         QTextStream fileStream(&sFile);
+        fileStream.setCodec("UTF-8");
         fileStream << message << "\r\n";
         sFile.flush();
     }
