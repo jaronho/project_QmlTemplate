@@ -1,4 +1,4 @@
-QT += quickwidgets
+QT += quickwidgets serialport
 CONFIG += c++11
 
 # Unix平台
@@ -170,6 +170,7 @@ HEADERS += \
     src/jhsdk/timer/TimerManager.h \
     src/jhsdk/xmlhelper/XmlHelper.h \
     src/jhsdk/Global.h \
+    src/SerialOP.h \
     src/XWindow.h \
     src/Proxy.h
 
@@ -188,6 +189,7 @@ SOURCES += \
     src/jhsdk/timer/TimerManager.cpp \
     src/jhsdk/xmlhelper/XmlHelper.cpp \
     src/jhsdk/Global.cpp \
+    src/SerialOP.cpp \
     src/XWindow.cpp \
     src/Proxy.cpp \
     src/main.cpp
