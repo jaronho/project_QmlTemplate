@@ -64,11 +64,11 @@ public:
     /* 关闭串口 */
     void close(void);
 
-    /* 发送数据 */
-    bool send(QByteArray data);
+    /* 发送数据,sleepMillisecondWhenOk:阻塞时间(当发送成功时才有效,毫秒) */
+    bool send(QByteArray data, unsigned int sleepMillisecondWhenOk = 0);
 
     /* 发送数据,会阻塞等待响应数据,timeout:超时时间(毫秒,最小有效值10毫秒) */
-    bool sendWait(QByteArray data, QByteArray& responseData, int timeout = 100);
+    bool sendWait(QByteArray data, QByteArray& responseData, unsigned int timeout = 100);
 
 private slots:
     void recvSerialData(void);

@@ -4,6 +4,7 @@
 * Brief:	串口操作
 **********************************************************************/
 #include "SerialOP.h"
+#include <unistd.h>
 
 QList<QSerialPortInfo> SerialOP::availablePorts(void) {
     return QSerialPortInfo::availablePorts();
@@ -164,17 +165,22 @@ void SerialOP::close(void) {
     }
 }
 
-bool SerialOP::send(QByteArray data) {
+bool SerialOP::send(QByteArray data, unsigned int sleepMillisecondWhenOk) {
     if (mSerial->isOpen() && (QIODevice::WriteOnly == mSerial->openMode() || QIODevice::ReadWrite == mSerial->openMode())) {
-        return mSerial->write(data) >= 0;
+        if (mSerial->write(data) >= 0) {
+            if (sleepMillisecondWhenOk > 0) {
+                usleep(sleepMillisecondWhenOk * 1000);
+            }
+            return true;
+        }
     }
     return false;
 }
 
-bool SerialOP::sendWait(QByteArray data, QByteArray& responseData, int timeout) {
+bool SerialOP::sendWait(QByteArray data, QByteArray& responseData, unsigned int timeout) {
     bool ret = send(data);
     if (ret) {
-        static const int MIN_TIMEOUT = 10;
+        static const unsigned int MIN_TIMEOUT = 10;
         mSerial->waitForReadyRead(timeout >= MIN_TIMEOUT ? timeout : MIN_TIMEOUT);
         responseData = mRecvData;
         mRecvData.clear();
