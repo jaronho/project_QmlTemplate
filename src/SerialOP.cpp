@@ -4,7 +4,6 @@
 * Brief:	串口操作
 **********************************************************************/
 #include "SerialOP.h"
-#include <unistd.h>
 
 QList<QSerialPortInfo> SerialOP::availablePorts(void) {
     return QSerialPortInfo::availablePorts();
@@ -165,11 +164,12 @@ void SerialOP::close(void) {
     }
 }
 
-bool SerialOP::send(QByteArray data, unsigned int sleepMillisecondWhenOk) {
+bool SerialOP::send(QByteArray data, int recvTimeout) {
     if (mSerial->isOpen() && (QIODevice::WriteOnly == mSerial->openMode() || QIODevice::ReadWrite == mSerial->openMode())) {
         if (mSerial->write(data) >= 0) {
-            if (sleepMillisecondWhenOk > 0) {
-                usleep(sleepMillisecondWhenOk * 1000);
+            if (recvTimeout > 0) {
+                static const int MIN_TIMEOUT = 10;
+                 mSerial->waitForReadyRead(recvTimeout >= MIN_TIMEOUT ? recvTimeout : MIN_TIMEOUT);
             }
             return true;
         }
@@ -177,20 +177,8 @@ bool SerialOP::send(QByteArray data, unsigned int sleepMillisecondWhenOk) {
     return false;
 }
 
-bool SerialOP::sendWait(QByteArray data, QByteArray& responseData, unsigned int timeout) {
-    bool ret = send(data);
-    if (ret) {
-        static const unsigned int MIN_TIMEOUT = 10;
-        mSerial->waitForReadyRead(timeout >= MIN_TIMEOUT ? timeout : MIN_TIMEOUT);
-        responseData = mRecvData;
-        mRecvData.clear();
-    }
-    return ret;
-}
-
 void SerialOP::recvSerialData(void) {
     QByteArray data = mSerial->readAll();
-    mRecvData = data;
     if (mRecvCallback) {
         mRecvCallback(data);
     }
