@@ -170,8 +170,8 @@ HEADERS += \
     src/jhsdk/timer/TimerManager.h \
     src/jhsdk/xmlhelper/XmlHelper.h \
     src/jhsdk/Global.h \
-    src/SerialOP.h \
-    src/XWindow.h \
+    src/utils/SerialOP.h \
+    src/utils/XWindow.h \
     src/Proxy.h
 
 SOURCES += \
@@ -189,8 +189,8 @@ SOURCES += \
     src/jhsdk/timer/TimerManager.cpp \
     src/jhsdk/xmlhelper/XmlHelper.cpp \
     src/jhsdk/Global.cpp \
-    src/SerialOP.cpp \
-    src/XWindow.cpp \
+    src/utils/SerialOP.cpp \
+    src/utils/XWindow.cpp \
     src/Proxy.cpp \
     src/main.cpp
 

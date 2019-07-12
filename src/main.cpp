@@ -5,7 +5,7 @@
 #include <QQuickItem>
 #include <QQuickWidget>
 #include "jhsdk/Global.h"
-#include "XWindow.h"
+#include "utils/XWindow.h"
 #include "Proxy.h"
 
 /* 输出日志信息 */
