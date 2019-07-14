@@ -1,5 +1,4 @@
 #include "XWindow.h"
-#include <QQmlContext>
 #include <QQuickItem>
 
 XWindow::XQuickView::XQuickView(QWindow* parent) : QQuickView(parent) {
@@ -79,6 +78,10 @@ void XWindow::setContextProperty(const QString& name, QObject* value) {
 
 void XWindow::setContextProperty(const QString& name, const QVariant& value) {
     mView->rootContext()->setContextProperty(name, value);
+}
+
+void XWindow::setContextProperties(const QVector<QQmlContext::PropertyPair>& properties) {
+    mView->rootContext()->setContextProperties(properties);
 }
 
 void XWindow::setTitle(QString title) {

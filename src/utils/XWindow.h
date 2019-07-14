@@ -1,6 +1,7 @@
 #ifndef XWINDOW_H
 #define XWINDOW_H
 
+#include <QQmlContext>
 #include <QQuickView>
 
 class XWindow {
@@ -30,6 +31,7 @@ public:
     void setFlag(Qt::WindowType flag, bool on = true);
     void setContextProperty(const QString& name, QObject* value);
     void setContextProperty(const QString& name, const QVariant& value);
+    void setContextProperties(const QVector<QQmlContext::PropertyPair>& properties);
     void setTitle(QString title);
     void setIcon(QIcon icon);
     void setSource(const QUrl& source);
