@@ -45,4 +45,4 @@ private:
     XQuickView* mView;
 };
 
-#endif // XWINDOW_H
+#endif /* XWINDOW_H */
