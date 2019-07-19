@@ -18,7 +18,7 @@ void XTimer::onTimeout(void) {
     }
 }
 
-XTimerAction::XTimerAction(int msec, unsigned long count) {
+XTimerAction::XTimerAction(int msec, unsigned long count, QObject* parent) : QObject(parent) {
     mTimer = new QTimer(this);
     mTimer->setInterval(msec);
     connect(mTimer, SIGNAL(timeout()), this, SLOT(onTimeout()));
@@ -31,6 +31,7 @@ bool XTimerAction::run(bool autoDestroy) {
     if (mTimer && !mTimer->isActive()) {
         mAutoDestroy = autoDestroy;
         mTimer->start();
+        onStart();
         return true;
     }
     return false;

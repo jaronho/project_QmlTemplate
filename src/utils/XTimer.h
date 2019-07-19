@@ -16,6 +16,8 @@
  * Brief:   扩展定时器
  */
 class XTimer : public QTimer {
+    Q_OBJECT
+
 public:
     /* 构造函数 */
     XTimer(QObject* parent = nullptr);
@@ -38,6 +40,7 @@ private:
  */
 class XTimerAction : public QObject {
     Q_OBJECT
+
 public:
      /*
      * Brief:	构造函数(需要在主线程中循环调用)
@@ -45,7 +48,7 @@ public:
      *          count - 定时次数(0.无限次,>0.有限次)
      * Return:	void
      */
-    XTimerAction(int msec, unsigned long count = 0);
+    XTimerAction(int msec, unsigned long count = 0, QObject* parent = nullptr);
 
     /*
      * Brief:	运行定时动作
@@ -62,6 +65,13 @@ public:
     bool finish(void);
 
 protected:
+    /*
+     * Brief:	定时开始函数(需要在子类实现)
+     * Param:	void
+     * Return:	void
+     */
+    virtual void onStart(void) = 0;
+
     /*
      * Brief:	定时触发函数(需要在子类实现)
      * Param:	void
