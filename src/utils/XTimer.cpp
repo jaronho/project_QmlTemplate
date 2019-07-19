@@ -29,9 +29,10 @@ XTimerAction::XTimerAction(int msec, unsigned long count, QObject* parent) : QOb
 
 bool XTimerAction::run(bool autoDestroy) {
     if (mTimer && !mTimer->isActive()) {
+        mTimeoutCount = 0;
         mAutoDestroy = autoDestroy;
-        mTimer->start();
         onStart();
+        mTimer->start();
         return true;
     }
     return false;
