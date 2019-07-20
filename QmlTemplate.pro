@@ -171,6 +171,7 @@ HEADERS += \
     src/jhsdk/xmlhelper/XmlHelper.h \
     src/jhsdk/Global.h \
     src/utils/SerialOP.h \
+    src/utils/Utils.h \
     src/utils/XTimer.h \
     src/utils/XWindow.h \
     src/Proxy.h
@@ -191,6 +192,7 @@ SOURCES += \
     src/jhsdk/xmlhelper/XmlHelper.cpp \
     src/jhsdk/Global.cpp \
     src/utils/SerialOP.cpp \
+    src/utils/Utils.cpp \
     src/utils/XTimer.cpp \
     src/utils/XWindow.cpp \
     src/Proxy.cpp \

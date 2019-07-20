@@ -6,11 +6,8 @@
 #ifndef _PROXY_H_
 #define _PROXY_H_
 
-#include <QGuiApplication>
 #include <QObject>
-#include <QQuickWindow>
 #include <QString>
-#include <QVariant>
 
 class Proxy : public QObject {
     Q_OBJECT
@@ -24,21 +21,6 @@ private:
     Proxy(void) {}
 
 public:
-    /*
-     * Brief:   调用QML函数接口
-     * Param:   objectName - qml对象名
-     *          methodName - 函数名
-     *          retValue - 返回值(可为空指针)
-     *          val0,val9 - 传入参数(最多支持9个参数)
-     * Return:  bool
-     */
-    static bool callQml(QString objectName, QString methodName, QVariant* retValue,
-                        QVariant val0 = QVariant(), QVariant val1 = QVariant(),
-                        QVariant val2 = QVariant(), QVariant val3 = QVariant(),
-                        QVariant val4 = QVariant(), QVariant val5 = QVariant(),
-                        QVariant val6 = QVariant(), QVariant val7 = QVariant(),
-                        QVariant val8 = QVariant(), QVariant val9 = QVariant());
-
     /*
      * Brief:   单例
      * Param:   void
