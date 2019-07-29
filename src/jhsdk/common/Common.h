@@ -531,16 +531,11 @@ public:
     static std::vector<std::string> shellCmd(const std::string& cmd, unsigned int sleepMillisecondWhenOk = 0);
 
     /*
-     * Brief:	get size of array, e.g.
-     *              int arr[] = {0, 1, 2, 3};
-     *              size_t len = Common::getArrayCount<int>(arr);
-     * Param:	arr - array
-     * Return:	size_t
+     * Brief:   get random network port between [1025, 65534]
+     * Param:   void
+     * Return:  int
      */
-    template <typename T, typename TArray>
-    static size_t getArrayCount(const TArray& arr) {
-        return sizeof(arr) / sizeof(T);
-    }
+    static int randomNetPort(void);
 
     /*
      * Brief:	get data from a specify array, e.g.
